@@ -1,0 +1,64 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 150px;
+}
+.title{
+    text-align: center;
+}
+.inputItems{
+    outline: 0;
+    border-radius: 5px;
+    border: 0;
+    padding: 2px 5px;
+}
+.addItemBtn{
+    cursor: pointer;
+    background-color: white;
+    border:1px solid white;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+.modalWrapper{
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 998;
+    background: rgba(3, 3, 3, 0.5);
+}
+.modalWindow{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 200px;
+    background: rgb(199, 195, 195);
+    height: 100px;
+}
+.closeModal{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: transparent;
+    outline: 0;
+    border: 0;
+    padding: 0;
+}
+.inputModal{
+    width: 70%;
+    margin: 15px 0 2px 0;
+}
+.saveBtn{
+    margin-top: 5px;
+    width: 40%;
+    font-size: 9px;
+}
