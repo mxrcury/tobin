@@ -1,44 +1,45 @@
 import * as axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
+import { tasksAPI } from "../../api/apiRequests";
 import {
   setTasks,
   changeText,
   updateTask,
   editTaskText,
   toggleModal,
-  fillSelectedTask
+  fillSelectedTask,
+  addingTaskProgress,
+  editingTaskProgress,
+  deletingTaskProgress,
+  toggleFetching
 } from "../../Redux/Reducers/todo-reducer";
 import TodoList from "./TodoList";
 
 class TodoListApiContainer extends React.Component {
   fetchGetRequest = () => {
-    axios
-      .get("https://63031e7c9eb72a839d793a73.mockapi.io/api/v1/tasks")
-      .then((response) => this.props.setTasks(response.data));
+    this.props.toggleFetching(true)
+    tasksAPI.getTasks().then((data) => {this.props.setTasks(data)
+        this.props.toggleFetching(false)
+      });
   };
   // Функція, яка внизу, потребує адаптації, ідея така, щоб отримувати тільки елемент таску по айдішнику і обновляти його стан, а не одразу всі
   // ==============
-  fetchGetRequestById = (taskId) => {
-    axios
-      .get(`https://63031e7c9eb72a839d793a73.mockapi.io/api/v1/tasks/${taskId}`)
-      .then((response) => {
-        console.log(response.data);
-        this.props.updateTask(`${response.data}.${taskId}`);
-      });
-  };
+  // fetchGetRequestById = (taskId) => {
+  //   axios
+  //     .get(`https://63031e7c9eb72a839d793a73.mockapi.io/api/v1/tasks/${taskId}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       this.props.updateTask(`${response.data}.${taskId}`);
+  //     });
+  // };
   // ===============
   componentDidMount() {
     this.fetchGetRequest();
   }
   addTask = () => {
     if (this.props.taskText.length >= 1) {
-      axios
-        .post(
-          `https://63031e7c9eb72a839d793a73.mockapi.io/api/v1/tasks`,
-          this.createTask(this.props.taskText)
-        )
-        .then((response) => {
+      tasksAPI.addTask(this.createTask(this.props.taskText)).then((response) => {
           this.fetchGetRequest();
           this.props.changeText("");
         })
@@ -48,45 +49,30 @@ class TodoListApiContainer extends React.Component {
     }
   };
   deleteTask = (taskId) => {
-    axios
-      .delete(
-        `https://63031e7c9eb72a839d793a73.mockapi.io/api/v1/tasks/${taskId}`
-      )
-      .then((response) => {
+    this.props.toggleFetching(true)
+    tasksAPI.deleteTask(taskId).then((response) => {
         this.fetchGetRequest();
+        this.props.toggleFetching(false)
         console.log(`Task was deleted - ${response.data}.${taskId}`);
       });
   };
   createTask = (taskTitle) => ({ taskTitle: taskTitle, isDone: false });
   completeTask = (taskId) => {
-    axios
-      .put(
-        `https://63031e7c9eb72a839d793a73.mockapi.io/api/v1/tasks/${taskId}`,
-        { isDone: true }
-      )
-      .then((response) => {
+      tasksAPI.toggleTaskCompleting(taskId,true).then((response) => {
         this.fetchGetRequest();
         console.log(response.data);
       });
   };
   uncompleteTask = (taskId) => {
-    axios
-      .put(
-        `https://63031e7c9eb72a839d793a73.mockapi.io/api/v1/tasks/${taskId}`,
-        { isDone: false }
-      )
-      .then((response) => {
+    
+      tasksAPI.toggleTaskCompleting(taskId,false).then((response) => {
         this.fetchGetRequest();
         console.log(response.data);
       });
   };
   editTask = (taskId) => {
-    axios
-      .put(
-        `https://63031e7c9eb72a839d793a73.mockapi.io/api/v1/tasks/${taskId}`,
-        { taskTitle: `${this.props.editedTaskText}`, isDone:false }
-      )
-      .then((response) => {
+  
+      tasksAPI.editTask(taskId,this.props.editedTaskText,false).then((response) => {
         console.log('Task has been edited')
         this.fetchGetRequest();
         this.props.editTaskText('');
@@ -132,5 +118,9 @@ export default connect(mapStateToProps, {
   updateTask,
   editTaskText,
   toggleModal,
-  fillSelectedTask
+  fillSelectedTask,
+  addingTaskProgress,
+  editingTaskProgress,
+  deletingTaskProgress,
+  toggleFetching
 })(TodoListApiContainer);

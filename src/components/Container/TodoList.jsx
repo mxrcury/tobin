@@ -2,62 +2,73 @@ import React from "react";
 import { createRef } from "react";
 import { TodoItem } from "./TodoItem";
 import styles from "./TodoList.module.css";
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
-const TodoList = (props) => {
+const    TodoList = (props) => {
   const inputEl = createRef();
-  const editInputEl = createRef()
+  const editInputEl = createRef();
 
   const changeText = () => {
     props.changeText(inputEl.current.value);
   };
   // d!!!!!!!!!!!!1
-  const beginEditTastText = () =>{
-    props.editTaskText(this.props.selectedTask.taskTitle)
-  }
-  const editTaskText = () =>{
-    props.editTaskText(editInputEl.current.value)
-  }
+  const beginEditTastText = () => {
+    props.editTaskText(this.props.selectedTask.taskTitle);
+  };
+  const editTaskText = () => {
+    props.editTaskText(editInputEl.current.value);
+  };
   return (
     <div className={styles.wrapper}>
       {props.isModalOpen && (
         <div className={styles.modalWrapper}>
           <div className={styles.modalWindow}>
-          {/* !!!!!!! */}
-            <input type="text" onChange={()=>{editTaskText()}} ref={editInputEl} value={props.isModalOpen ? props.editedTaskText : ''} className={styles.inputModal}  placeholder='Edit...'/>
-            <button
-              onClick={()=>{
-                props.editTask(props.selectedTask.id)
-                props.closeModal()
+            {/* !!!!!!! */}
+            <input
+              type="text"
+              onChange={() => {
+                editTaskText();
               }}
-             className={styles.saveBtn}>Save changes</button>
+              ref={editInputEl}
+              value={props.isModalOpen ? props.editedTaskText : ""}
+              className={styles.inputModal}
+              placeholder="Edit..."
+            />
             <button
-             onClick={props.closeModal}
-             className={styles.closeModal} >
-              <CloseOutlinedIcon style={{cursor:'pointer'}}/>
-             </button>
+              onClick={() => {
+                props.editTask(props.selectedTask.id);
+                props.closeModal();
+              }}
+              className={styles.saveBtn}
+            >
+              Save changes
+            </button>
+            <button onClick={props.closeModal} className={styles.closeModal}>
+              <CloseOutlinedIcon style={{ cursor: "pointer" }} />
+            </button>
           </div>
         </div>
       )}
       <div>
         <div className={styles.todoListForm}>
           <h3 className={styles.title}>Add a task</h3>
-          <input
-            placeholder="Write a task..."
-            value={props.taskText}
-            onChange={changeText}
-            ref={inputEl}
-            className={styles.inputItems}
-          />
-          <button onClick={props.addTask} className={styles.addItemBtn}>
-            Add
-          </button>
+          <form action="" className={styles.form}>
+            <input
+              placeholder="Write a task..."
+              value={props.taskText}
+              onChange={changeText}
+              ref={inputEl}
+              className={styles.inputItems}
+            />
+            <button onClick={props.addTask} className={styles.addItemBtn}>
+              Add
+            </button>
+          </form>
         </div>
       </div>
       {props.tasks.map((task) => {
         return (
           <TodoItem
-            
             isFetching={props.isFetching}
             task={task}
             completeTask={props.completeTask}
