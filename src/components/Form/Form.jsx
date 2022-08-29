@@ -1,14 +1,18 @@
-import React from 'react'
+import React from "react";
+import styles from "./Form.module.css";
 
-const Form = ({title,handleClick}) => {
-    return (
-    <div>
-        <h1 style={{color:'#2f2f2f'}}>{title}</h1>
+const Form = ({ title, handleClick }) => {
+  return (
+    <div className={styles.wrapper}>
+      <h1 className={styles.formTitle}>{title}</h1>
+      <form action="" className={styles.formWrapper}>
         <input type="email" />
+        <input type="password" />
         {/* <input type="password" /> */}
         <button onClick={handleClick}>Log In</button>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;

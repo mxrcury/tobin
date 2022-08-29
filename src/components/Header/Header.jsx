@@ -4,7 +4,7 @@ import styles from './Header.module.css'
 const Header = () => {
   return (
     <div className={styles.wrapper} style={{color:'black'}}>
-    <input type="switch"/>
+    {/* <input type="switch"/> */}
     <Link to='/' className={styles.link}>My tasks</Link>
     <div className={styles.buttons}>
         <Link to='/login'><button className={styles.logBtn}>Log In</button></Link>

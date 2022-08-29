@@ -12,6 +12,7 @@ import {
   setTasks,
   deleteTask,
   completeTask,
+  uncompleteTask,
   editTask
 } from "../../Redux/Reducers/todo-reducer";
 import PreloaderModal from "./PreloaderModal/PreloaderModal";
@@ -105,5 +106,6 @@ export default connect(mapStateToProps, {
   setTasks,
   deleteTask,
   completeTask,
+  uncompleteTask,
   editTask
 })(TodoListApiContainer);
