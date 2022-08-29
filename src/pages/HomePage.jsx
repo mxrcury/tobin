@@ -5,7 +5,7 @@ import TodoListContainer from "../components/Container/TodoListContainer";
 const HomePage = () => {
   return (
     <div>
-      <Navigate replace to="/login" />
+      {/* <Navigate replace to="/login" /> */}
       <TodoListContainer />
     </div>
   );

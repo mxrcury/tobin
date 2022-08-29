@@ -1,21 +1,22 @@
+import { tasksAPI } from "../../api/apiRequests";
+
 const SET_TASKS = "SET_TASKS";
 const CHANGE_TEXT = "CHANGE_TEXT";
 const UPDATE_TASK = "UPDATE_TASK";
 const EDIT_TASK_TEXT = "EDIT_TASK_TEXT";
 const TOGGLE_MODAL = "TOGGLE_MODAL";
 const FILL_SELECTED_TASK = 'FILL_SELECTED_TASK'
-const ADDING_TASK_PROGRESS = 'ADDING_TASK_PROGRESS'
-const EDITING_TASK_PROGRESS = 'EDITING_TASK_PROGRESS'
-const DELETING_TASK_PROGRESS = 'DELETING_TASK_PROGRESS'
 const TOGGLE_FETCHING = 'TOGGLE_FETCHING'
+const CREATE_TASK = 'CREATE_TASK'
 
 const initialState = {
   tasks: [],
   taskText: "",
-  isModalOpen: false,
+  createdTask:{},
   editedTaskText: "",
   selectedTask:{},
   isFetching:false,
+  isModalOpen: false,
 };
 
 export const todoReducer = (state = initialState, action) => {
@@ -37,6 +38,8 @@ export const todoReducer = (state = initialState, action) => {
           }),
         ],
       };
+    case CREATE_TASK:
+      return {...state,createdTask:{...state.createdTask,taskTitle:action.taskTitle,isDone:false}}
     case CHANGE_TEXT:
       return { ...state, taskText: action.text };
     case EDIT_TASK_TEXT:
@@ -69,3 +72,47 @@ export const editTaskText = (newText) => ({
 export const toggleModal = (toggleModal) => ({ type: TOGGLE_MODAL, toggleModal });
 export const fillSelectedTask = (id,title) =>({type:FILL_SELECTED_TASK,id,taskTitle:title})
 export const toggleFetching = (isFetching) =>({type:TOGGLE_FETCHING,isFetching})
+export const createTask = (taskTitle) =>({type:CREATE_TASK,taskTitle})
+
+
+export const getTasks = () => (dispatch) =>{
+  dispatch(toggleFetching(true))
+  tasksAPI.getTasks().then((data) => {
+    dispatch(setTasks(data))
+    dispatch(toggleFetching(false))
+  });
+}
+export const addTask = (taskText) => (dispatch)=>{
+  tasksAPI
+    .addTask(dispatch(createTask(taskText)))
+    .then((response) => {
+      dispatch(getTasks())
+      dispatch(changeText(""))
+    })
+    .catch((error) => alert(error));
+}
+export const deleteTask = (taskId) => (dispatch)=>{
+  dispatch(toggleFetching(true))
+    tasksAPI.deleteTask(taskId).then((data) => {
+        dispatch(getTasks())
+        dispatch(toggleFetching(false))
+        console.log(`Task was deleted`);
+      });
+}
+export const completeTask = (taskId) => (dispatch) =>{
+  tasksAPI.toggleTaskCompleting(taskId,true).then((response) => {
+    dispatch(getTasks())
+  });
+}
+export const uncompleteTask = (taskId) => (dispatch) =>{
+  tasksAPI.toggleTaskCompleting(taskId,false).then((response) => {
+    dispatch(getTasks())
+  });
+}
+export const editTask = (taskId,taskText) => (dispatch)=>{
+  tasksAPI.editTask(taskId,taskText,false).then((response) => {
+    console.log('Task has been edited')
+    dispatch(getTasks())
+    dispatch(changeText(''))
+  });
+}

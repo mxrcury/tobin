@@ -5,7 +5,7 @@ const Form = ({title,handleClick}) => {
     <div>
         <h1 style={{color:'#2f2f2f'}}>{title}</h1>
         <input type="email" />
-        <input type="password" />
+        {/* <input type="password" /> */}
         <button onClick={handleClick}>Log In</button>
     </div>
   )

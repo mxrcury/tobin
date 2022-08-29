@@ -75,7 +75,6 @@ const TodoList = (props) => {
       {props.tasks.map((task) => {
         return (
           <TodoItem
-            isFetching={props.isFetching}
             task={task}
             completeTask={props.completeTask}
             uncompleteTask={props.uncompleteTask}
