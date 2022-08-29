@@ -4,40 +4,48 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border: 1px solid gray;
+    background: rgb(245, 245, 245);
+    border:1px solid rgb(173, 173, 173);
     border-radius: 5px;
     padding: 3px 10px 5px 6px;
     margin-top: 5px ;
-    width: 205px;
 }
 .todoWrapper{
     position: relative;
-    background-color: white;
     display: flex;
     align-items: center;
 }
 .todoItem{
     cursor: pointer;
     user-select: none;
-    color:black;
-    font-size: 14px;
-    line-height: 13px;
+    color:rgb(111, 111, 111);
+    font-size: 24px;
+    line-height: 26px;
     padding: 0;
     margin: 0;
     margin-left: 5px;
     margin-bottom: 2px;
 }
 .checkbox{
-    margin: 0;
+    margin: 0 3px;
     display: block;
-    width: 11px;
+    min-width: 15px;
+    min-height: 15px;
+    background: black;;
 }
+.checkbox[type=checkbox] {
+    accent-color: rgb(92, 92, 92);
+  }
 .completedTask{
     text-decoration: line-through;
-    color:gray;
+    color:rgb(111, 111, 111);
 }
 .btns{
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    margin-right: 2px
 }
 .editBtn{
     width: 20px;
@@ -49,10 +57,11 @@
     outline: 0;
     cursor: pointer;
     background: transparent;
+    margin-right: 10px;
+    padding-right: 20px;
 }
 .delBtn{
     width: 20px;
-    margin-left: 11px;
     height: 23px;
     display: inline-block;
     padding: 0;

@@ -1,4 +1,3 @@
-import * as axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
 import { tasksAPI } from "../../api/apiRequests";
@@ -14,6 +13,7 @@ import {
   deletingTaskProgress,
   toggleFetching
 } from "../../Redux/Reducers/todo-reducer";
+import PreloaderModal from "./PreloaderModal/PreloaderModal";
 import TodoList from "./TodoList";
 
 class TodoListApiContainer extends React.Component {
@@ -37,8 +37,9 @@ class TodoListApiContainer extends React.Component {
   componentDidMount() {
     this.fetchGetRequest();
   }
-  addTask = () => {
+  addTask = (e) => {
     if (this.props.taskText.length >= 1) {
+      e.preventDefault()
       tasksAPI.addTask(this.createTask(this.props.taskText)).then((response) => {
           this.fetchGetRequest();
           this.props.changeText("");
@@ -50,10 +51,10 @@ class TodoListApiContainer extends React.Component {
   };
   deleteTask = (taskId) => {
     this.props.toggleFetching(true)
-    tasksAPI.deleteTask(taskId).then((response) => {
+    tasksAPI.deleteTask(taskId).then((data) => {
         this.fetchGetRequest();
         this.props.toggleFetching(false)
-        console.log(`Task was deleted - ${response.data}.${taskId}`);
+        console.log(`Task was deleted - ${data}.${taskId}`);
       });
   };
   createTask = (taskTitle) => ({ taskTitle: taskTitle, isDone: false });
@@ -71,7 +72,6 @@ class TodoListApiContainer extends React.Component {
       });
   };
   editTask = (taskId) => {
-  
       tasksAPI.editTask(taskId,this.props.editedTaskText,false).then((response) => {
         console.log('Task has been edited')
         this.fetchGetRequest();
@@ -88,7 +88,8 @@ class TodoListApiContainer extends React.Component {
     this.props.fillSelectedTask(null)
   }
   render() {
-    return (
+  this.props.isFetching && (<PreloaderModal/>)
+   return (
       <TodoList
         {...this.props}
         addTask={this.addTask}
@@ -109,7 +110,8 @@ const mapStateToProps = (state) => ({
   isFetching: state.todoList.isFetching,
   isModalOpen: state.todoList.isModalOpen,
   editedTaskText: state.todoList.editedTaskText,
-  selectedTask:state.todoList.selectedTask
+  selectedTask:state.todoList.selectedTask,
+  isFetching:state.todoList.isFetching,
 });
 
 export default connect(mapStateToProps, {
@@ -119,8 +121,5 @@ export default connect(mapStateToProps, {
   editTaskText,
   toggleModal,
   fillSelectedTask,
-  addingTaskProgress,
-  editingTaskProgress,
-  deletingTaskProgress,
   toggleFetching
 })(TodoListApiContainer);

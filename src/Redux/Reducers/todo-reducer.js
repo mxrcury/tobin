@@ -16,9 +16,6 @@ const initialState = {
   editedTaskText: "",
   selectedTask:{},
   isFetching:false,
-  AddingTaskProgress:[],
-  EditingTaskProgress:[],
-  DeletingTaskProgress:[]
 };
 
 export const todoReducer = (state = initialState, action) => {
@@ -57,27 +54,6 @@ export const todoReducer = (state = initialState, action) => {
       };
       case TOGGLE_FETCHING:
         return {...state,isFetching:action.isFetching}
-    case ADDING_TASK_PROGRESS:
-      return {
-        ...state,
-        AddingTaskProgress: action.isFetching
-          ? [...state.AddingTaskProgress, action.taskId]
-          : state.AddingTaskProgress.filter((id) => id != action.taskId),
-      };
-    case EDITING_TASK_PROGRESS:
-      return {
-        ...state,
-        EditingTaskProgress: action.isFetching
-          ? [...state.EditingTaskProgress, action.taskId]
-          : state.EditingTaskProgress.filter((id) => id != action.taskId),
-      };
-    case DELETING_TASK_PROGRESS:
-      return {
-        ...state,
-        deletingTaskProgress: action.isFetching
-          ? [...state.deletingTaskProgress, action.taskId]
-          : state.deletingTaskProgress.filter((id) => id != action.taskId),
-      };
     default:
       return state;
   }
@@ -93,12 +69,3 @@ export const editTaskText = (newText) => ({
 export const toggleModal = (toggleModal) => ({ type: TOGGLE_MODAL, toggleModal });
 export const fillSelectedTask = (id,title) =>({type:FILL_SELECTED_TASK,id,taskTitle:title})
 export const toggleFetching = (isFetching) =>({type:TOGGLE_FETCHING,isFetching})
-export const addingTaskProgress = (isFetching,taskId) =>({
-  type:ADDING_TASK_PROGRESS,isFetching,taskId
-})
-export const editingTaskProgress = (isFetching,taskId) =>({
-  type:ADDING_TASK_PROGRESS,isFetching,taskId
-})
-export const deletingTaskProgress = (isFetching,taskId) =>({
-  type:ADDING_TASK_PROGRESS,isFetching,taskId
-})

@@ -5,7 +5,7 @@ import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRen
 
 export const TodoItem = (props) => {
   return (
-    <div className={styles.wrapper}>
+  <div className={styles.wrapper}>
       <div
         className={styles.todoWrapper}
         onClick={() => {
@@ -40,7 +40,7 @@ export const TodoItem = (props) => {
           className={styles.editBtn}
         >
           <DriveFileRenameOutlineOutlinedIcon
-            style={{ color: "black", width: "18px", marginLeft: "1px", background:'transparent' }}
+            style={{ color: "rgb(96, 96, 96)", width: "25px", background:'transparent' }}
           />
         </button>
         <button
@@ -50,10 +50,9 @@ export const TodoItem = (props) => {
           className={styles.delBtn}
         >
           <DeleteOutlineIcon
-            style={{ color: "black", width: "18px", marginLeft: "5px",marginRight: "0",display:'block', background:'transparent'}}
+            style={{ color: "rgb(96, 96, 96)", width: "25px",display:'block', background:'transparent'}}
           />
         </button>
       </div>
-    </div>
-  );
+    </div>)
 };

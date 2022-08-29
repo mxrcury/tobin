@@ -4,7 +4,7 @@ import { TodoItem } from "./TodoItem";
 import styles from "./TodoList.module.css";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
-const    TodoList = (props) => {
+const TodoList = (props) => {
   const inputEl = createRef();
   const editInputEl = createRef();
 
@@ -15,6 +15,7 @@ const    TodoList = (props) => {
   const beginEditTastText = () => {
     props.editTaskText(this.props.selectedTask.taskTitle);
   };
+  //!!!
   const editTaskText = () => {
     props.editTaskText(editInputEl.current.value);
   };
@@ -24,7 +25,7 @@ const    TodoList = (props) => {
         <div className={styles.modalWrapper}>
           <div className={styles.modalWindow}>
             {/* !!!!!!! */}
-            <input
+            <textarea
               type="text"
               onChange={() => {
                 editTaskText();
@@ -33,18 +34,23 @@ const    TodoList = (props) => {
               value={props.isModalOpen ? props.editedTaskText : ""}
               className={styles.inputModal}
               placeholder="Edit..."
+              style={props.editedTaskText.length < 1 ? {border:'1px solid rgb(96, 96, 96)'} : {border:'1px solid rgb(173, 173, 173)'}}
             />
             <button
               onClick={() => {
-                props.editTask(props.selectedTask.id);
-                props.closeModal();
+                if (props.editedTaskText.length >= 1) {
+                  props.editTask(props.selectedTask.id);
+                  props.closeModal();
+                }else{
+                  alert('Enter a text')
+                }
               }}
               className={styles.saveBtn}
             >
               Save changes
             </button>
             <button onClick={props.closeModal} className={styles.closeModal}>
-              <CloseOutlinedIcon style={{ cursor: "pointer" }} />
+              <CloseOutlinedIcon style={{ cursor: "pointer",color:'rgb(96, 96, 96)',width:'100%' }} />
             </button>
           </div>
         </div>
@@ -78,10 +84,15 @@ const    TodoList = (props) => {
             openModal={props.openModal}
             fillSelectedTask={props.fillSelectedTask}
             selectedTask={props.selectedTask}
+            deletingTaskProgress={props.deletingTaskProgress}
+            deletingTaskInProgress={props.deletingTaskInProgress}
           />
         );
       })}
-      {/* {props.tasks.map((task) => (
+     
+     
+     
+     {/* {props.tasks.map((task) => (
           <div className={styles.todoWrapper}>
             <input
               type="checkbox"

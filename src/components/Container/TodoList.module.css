@@ -1,11 +1,13 @@
 .wrapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 150px;
+    margin: 0 auto;
+    margin-top: 80px;
+    width: 600px;
+    margin-bottom: 100px;
 }
 .title{
-    color:gray;
+    color:rgb(111, 111, 111);
+    font-size: 29px;
+    text-transform: uppercase;
     text-align: center;
 }
 .form{
@@ -14,6 +16,9 @@
 }
 .inputItems{
     color:rgb(111, 111, 111);
+    width: 80%;
+    height: 30px;
+    font-size: 24px;
     outline: 0;
     border-radius: 5px;
     border: 0;
@@ -21,31 +26,19 @@
     background: rgb(245, 245, 245);
     border:1px solid rgb(173, 173, 173);
     border-bottom: 1px solid rgb(173, 173, 173);
+    
 }
-.inputItems:active{
-    border-bottom: 2px solid rgb(173, 173, 173);
+.inputItems::placeholder{
+    font-family: 'SF Pro',sans-serif;
 }
-/* .addItemBtn{
-    cursor: pointer;
-    background-color: rgb(208, 207, 207);
-    color:white;
-    border: 0;
-    border-radius: 5px;
-    margin-left: 5px;
-    border: 1px solid gray;
-    border-bottom: 2px solid gray;
-}
-.addItemBtn:hover{
-    border-bottom: 1px solid gray;
-} */
 .addItemBtn{
     cursor: pointer;
+    width: 19%;
+    margin-left: 15px;
     background-color: rgb(245, 245, 245);
     color:rgb(111, 111, 111);
     border:1px solid rgb(173, 173, 173);
     border-radius: 5px;
-    margin-left: 5px;
-    border-bottom: 1px solid rgb(173, 173, 173);
 }
 .addItemBtn:hover{
     /* background: rgb(208, 207, 207); */
@@ -71,9 +64,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width: 200px;
-    background: rgb(199, 195, 195);
-    height: 100px;
+    width: 40%;
+    background: white;
+    height: 25%;
+    border: 1px solid rgb(136, 136, 136);
 }
 .closeModal{
     position: absolute;
@@ -85,11 +79,33 @@
     padding: 0;
 }
 .inputModal{
-    width: 70%;
+    width: 80%;
+    height: 33%;
+    resize: none;
+    border: 0;
+    outline: 0;
+    background: rgb(245, 245, 245);
+    border: 1px solid rgb(173, 173, 173);
+    color:rgb(111, 111, 111);
+    border-radius: 5px;
     margin: 15px 0 2px 0;
 }
 .saveBtn{
     margin-top: 5px;
+    cursor: pointer;
     width: 40%;
+    height: 15%;
+    border-radius: 5px;
+    border: 0;
+    outline: 0;
+    border: 1px solid rgb(173, 173, 173);
     font-size: 9px;
+}
+.saveBtn:hover{
+    border-bottom: 2px solid rgb(173, 173, 173);
+}
+@media screen and (max-width:625px) {
+    .wrapper{
+        padding: 0 20px;
+    }
 }
