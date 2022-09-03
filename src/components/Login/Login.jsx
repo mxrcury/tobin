@@ -1,10 +1,17 @@
 import React from 'react'
 import Form from '../Form/Form'
 
-const Login = () => {
+const Login = ({setIsLoggedIn,setLoggedUsername}) => {
+
+  const handleLogIn = (e) =>{
+    e.preventDefault()
+    setIsLoggedIn(true)
+  }
+
   return (
-    <div>
-        <Form title={'Login'} />
+    <div>в
+    выфвыфвыфвыф
+        <Form setLoggedUsername={setLoggedUsername} handleClick={handleLogIn} title={'Log In'} />
     </div>
   )
 }

@@ -22,17 +22,6 @@ class TodoListApiContainer extends React.Component {
   fetchGetRequest = () => {
     this.props.getTasks()
   };
-  // Функція, яка внизу, потребує адаптації, ідея така, щоб отримувати тільки елемент таску по айдішнику і обновляти його стан, а не одразу всі
-  // ==============
-  // fetchGetRequestById = (taskId) => {
-  //   axios
-  //     .get(`https://63031e7c9eb72a839d793a73.mockapi.io/api/v1/tasks/${taskId}`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       this.props.updateTask(`${response.data}.${taskId}`);
-  //     });
-  // };
-  // ===============
   componentDidMount() {
     this.fetchGetRequest();
   }
@@ -49,7 +38,6 @@ class TodoListApiContainer extends React.Component {
   deleteTask = (taskId) => {
     this.props.deleteTask(taskId)
   };
-  // createTask = (taskTitle) => ({ taskTitle: taskTitle, isDone: false });
   completeTask = (taskId) => {
       this.props.completeTask(taskId)
   };
@@ -59,12 +47,15 @@ class TodoListApiContainer extends React.Component {
   editTask = (taskId) => {
       this.props.editTask(taskId,this.props.editedTaskText)
   };
-  openModal= () =>{
-    this.props.toggleModal(true)
-  }
 
+  state ={
+    isModalOpen:false
+  }
+  openModal= () =>{
+    this.state.isModalOpen = true;
+  }
   closeModal = () =>{
-    this.props.toggleModal(false)
+    this.state.isModalOpen = false;
     this.props.editTaskText('');
     this.props.fillSelectedTask(null)
   }
@@ -80,6 +71,7 @@ class TodoListApiContainer extends React.Component {
         uncompleteTask={this.uncompleteTask}
         openModal={this.openModal}
         closeModal={this.closeModal}
+        isModalOpen={this.state.isModalOpen}
       />
     );
   }
@@ -89,9 +81,9 @@ const mapStateToProps = (state) => ({
   tasks: state.todoList.tasks,
   taskText: state.todoList.taskText,
   isFetching: state.todoList.isFetching,
-  isModalOpen: state.todoList.isModalOpen,
   editedTaskText: state.todoList.editedTaskText,
   selectedTask:state.todoList.selectedTask,
+  checkedTasks:state.todoList.checkedTasks
 });
 
 export default connect(mapStateToProps, {

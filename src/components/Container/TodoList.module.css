@@ -1,7 +1,7 @@
 .wrapper{
     margin: 0 auto;
     margin-top: 80px;
-    width: 60%;
+    width: 760px;
     margin-bottom: 100px;
 }
 .title{
@@ -26,10 +26,14 @@
     background: rgb(245, 245, 245);
     border:1px solid rgb(173, 173, 173);
     border-bottom: 1px solid rgb(173, 173, 173);
+    transition: .3s ease;
     
 }
 .inputItems::placeholder{
     font-family: 'SF Pro',sans-serif;
+}
+.inputItems:focus{
+    background-color: white;
 }
 .addItemBtn{
     cursor: pointer;
@@ -39,10 +43,11 @@
     color:rgb(111, 111, 111);
     border:1px solid rgb(173, 173, 173);
     border-radius: 5px;
+    font-size: 18px;
+    transition: .1s ease;
 }
 .addItemBtn:hover{
-    /* background: rgb(208, 207, 207); */
-    border-bottom: 2px solid rgb(173, 173, 173);
+    background: rgba(194, 194, 194,0.7);
 }
 .modalWrapper{
     top: 0;
@@ -89,6 +94,10 @@
     color:rgb(111, 111, 111);
     border-radius: 5px;
     margin: 15px 0 2px 0;
+    font-size: 19px;
+}
+.inputModal:focus{
+    background-color: white;
 }
 .saveBtn{
     margin-top: 5px;
@@ -99,14 +108,25 @@
     border: 0;
     outline: 0;
     border: 1px solid rgb(173, 173, 173);
-    font-size: 9px;
+    font-size: 17px;
 }
 .saveBtn:hover{
     border-bottom: 2px solid rgb(173, 173, 173);
 }
+@media screen and (max-width:1000px) {
+    .wrapper{
+        width: 80%;
+    }
+    .modalWindow{
+        width: 50%;
+    }
+}
 @media screen and (max-width:767px) {
     .wrapper{
         width: 80%;
+    }
+    .modalWindow{
+        width: 60%;
     }
 }
 @media screen and (max-width:625px) {

@@ -1,27 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { createRef } from "react";
 import { TodoItem } from "./TodoItem";
 import styles from "./TodoList.module.css";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 const TodoList = (props) => {
+
+
   const inputEl = createRef();
   const editInputEl = createRef();
+
+
 
   const changeText = () => {
     props.changeText(inputEl.current.value);
   };
-  // d!!!!!!!!!!!!1
-  const beginEditTastText = () => {
-    props.editTaskText(this.props.selectedTask.taskTitle);
-  };
-  //!!!
+
+
+
   const editTaskText = () => {
     props.editTaskText(editInputEl.current.value);
   };
+
+
   return (
     <div className={styles.wrapper}>
-      {props.isModalOpen && (
+      {props.isModalOpen ? (
         <div className={styles.modalWrapper}>
           <div className={styles.modalWindow}>
             {/* !!!!!!! */}
@@ -38,9 +42,9 @@ const TodoList = (props) => {
             />
             <button
               onClick={() => {
-                if (props.editedTaskText.length >= 1) {
+                if (props.editedTaskText.trim().length) {
                   props.editTask(props.selectedTask.id);
-                  props.closeModal();
+                  props.closeModal(false)
                 }else{
                   alert('Enter a text')
                 }
@@ -54,13 +58,14 @@ const TodoList = (props) => {
             </button>
           </div>
         </div>
-      )}
+      ) : ''}
       <div>
         <div className={styles.todoListForm}>
           <h3 className={styles.title}>Add a task</h3>
           <form action="" className={styles.form}>
             <input
               placeholder="Write a task..."
+              autoFocus
               value={props.taskText}
               onChange={changeText}
               ref={inputEl}
@@ -85,6 +90,7 @@ const TodoList = (props) => {
             selectedTask={props.selectedTask}
             deletingTaskProgress={props.deletingTaskProgress}
             deletingTaskInProgress={props.deletingTaskInProgress}
+            checkedTasks={props.checkedTasks}
           />
         );
       })}

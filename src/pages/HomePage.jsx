@@ -2,10 +2,10 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import TodoListContainer from "../components/Container/TodoListContainer";
 
-const HomePage = () => {
+const HomePage = (props) => {
   return (
     <div>
-      {/* <Navigate replace to="/login" /> */}
+      {!props.isLoggedIn && <Navigate replace to="/login" />}
       <TodoListContainer />
     </div>
   );

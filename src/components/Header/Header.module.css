@@ -3,6 +3,17 @@
     justify-content: space-between;
     align-items: center;
 }
+.headerWrapper{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin: 5px 0;
+}
+.headerTitle{
+    margin-left: 5px;
+    font-size: 19px;
+}
 .copyrights{
     opacity: .7;
     font-size: 12px;
@@ -11,20 +22,22 @@
 }
 .buttons{
     margin: 5px 5px 0 0;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
 }
-.buttons button{
+.logBtn{
+    margin-right: 10px;
     border-radius: 5px;
     cursor: pointer;
     outline: 0;
     height: 25px;
     width: 80px;
     border:1px solid rgb(173, 173, 173);
+    transition: .1s ease;
 }
-.buttons button:hover{
-    border-bottom: 2px solid rgb(173, 173, 173);
-}
-.logBtn{
-    margin-right: 10px;
+.logBtn:hover{
+    background: rgba(194, 194, 194,0.7);
 }
 .link{
     color:#2f2f2f;

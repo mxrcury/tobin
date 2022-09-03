@@ -18,7 +18,10 @@ export const TodoItem = (props) => {
       >
         <input
           type="checkbox"
-          checked={props.task.isDone ? "checked" : ""}
+          checked={
+            props.task.isDone ? 'checked' : ''
+          }
+           //? "checked" : ""
           className={styles.checkbox}
         />
         <div>
@@ -34,7 +37,7 @@ export const TodoItem = (props) => {
       <div className={styles.btns}>
         <button
           onClick={() => {
-            props.openModal()
+            props.openModal(true)
             props.fillSelectedTask(props.task.id,props.task.taskTitle)
           }}
           className={styles.editBtn}
