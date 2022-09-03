@@ -1,17 +1,26 @@
 import React from 'react'
 import Form from '../Form/Form'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../firebase/firebase'
 
-const Login = ({setIsLoggedIn,setLoggedUsername}) => {
+const Login = ({setIsLoggedIn}) => {
 
-  const handleLogIn = (e) =>{
-    e.preventDefault()
-    setIsLoggedIn(true)
+  const handleLogIn = (data) =>{
+    console.log(data)
+    signInWithEmailAndPassword(auth, data.email, data.password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    // ...
+  })
+  .catch((error) => {
+    alert(error.message)
+  });
   }
 
   return (
-    <div>в
-    выфвыфвыфвыф
-        <Form setLoggedUsername={setLoggedUsername} handleClick={handleLogIn} title={'Log In'} />
+    <div>
+        <Form handleClick={handleLogIn} title={'Log In'} />
     </div>
   )
 }
