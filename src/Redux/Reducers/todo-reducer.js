@@ -1,3 +1,4 @@
+import { createSlice } from "@reduxjs/toolkit";
 import { tasksAPI } from "../../api/apiRequests";
 
 const SET_TASKS = "SET_TASKS";
@@ -23,6 +24,11 @@ const initialState = {
   checkedTasks:[],
   isFetching:false,
   isModalOpen: false,
+  user:{
+    email:null,
+    token:null,
+    id:null
+  }
 };
 
 export const todoReducer = (state = initialState, action) => {
@@ -86,6 +92,29 @@ export const todoReducer = (state = initialState, action) => {
   }
 };
 
+const userSlice = createSlice({
+  name:'user',
+  initialState:initialState.user,
+  reducers:{
+    setUser(state,action){
+      const { email,token,id } = action.payload;
+      state.email = email
+      state.token = token
+      state.id = id
+    },
+    removeUser(state){
+      state.email = null
+      state.token = null
+      state.id = null
+    }
+  }
+})
+
+export const { setUser, removeUser } = userSlice.actions;
+export const userReducer = userSlice.reducer
+
+
+
 export const setTasks = (tasks) => ({ type: SET_TASKS, tasks });
 export const changeText = (newText) => ({ type: CHANGE_TEXT, text: newText });
 export const updateTask = (id) => ({ type: UPDATE_TASK, taskId: id });
@@ -99,8 +128,8 @@ export const toggleFetching = (isFetching) =>({type:TOGGLE_FETCHING,isFetching})
 export const createTask = (taskTitle) =>({type:CREATE_TASK,taskTitle})
 const addNewTask = (taskData) =>({type:ADD_TASK,taskData})
 const deleteSomeTask = (taskId) =>({type:DELETE_TASK,taskId})
-const addCheckedTask = (task) =>({type:ADD_CHECKED_TASK,task})
-const deleteCheckedTask = (taskId) =>({type:DELETE_CHECKED_TASK,taskId})
+// const addCheckedTask = (task) =>({type:ADD_CHECKED_TASK,task})
+// const deleteCheckedTask = (taskId) =>({type:DELETE_CHECKED_TASK,taskId})
 
 
 export const getTasks = () => (dispatch) =>{
