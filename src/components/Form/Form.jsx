@@ -1,42 +1,18 @@
 import React from "react";
 import { useState } from "react";
-// import { useLocation, useNavigate, useParams, useRoutes } from "react-router-dom";
 import styles from "./Form.module.css";
-import { useForm } from 'react-hook-form'
 
-const Form = ({ title, handleClick,setLoggedUsername,isRegisterPage }) => {
-
-
-  // const { register,handleSubmit } = useForm({
-  //   defaultValues:{
-  //     username:'',
-  //     email:'',
-  //     password:''
-  // }})
+const Form = ({ title, handleClick }) => {
 
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
-  const [username,setUsername] = useState('')
-
-
 
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.formTitle}>{title}</h1>
-      <form onSubmit={handleClick} className={styles.formWrapper}>
-        {isRegisterPage && (
-          <input
-            autoFocus
-            type="text"
-            placeholder="username"
-            className={`${styles.input}`}
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        )}
+      <div className={styles.formWrapper}>
         <input
-          autoFocus={!isRegisterPage && true}
+          autoFocus
           className={`${styles.input}`}
           type="email"
           placeholder="enter your email"
@@ -52,18 +28,10 @@ const Form = ({ title, handleClick,setLoggedUsername,isRegisterPage }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
-        {/* {!isRegisterPage && (
-          <div>
-            <input type="checkbox" />
-            remember me
-          </div>
-        )} */}
-
-        <button className={styles.btn} onClick={handleClick}>
+        <button className={styles.btn} onClick={() => {handleClick(email,password)}}>
           {title}
         </button>
-      </form>
+      </div>
     </div>
   );
 };

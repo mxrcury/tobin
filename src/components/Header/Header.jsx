@@ -1,19 +1,25 @@
 import { Link } from 'react-router-dom'
 import styles from './Header.module.css'
+import { useAuth } from 'hooks/useAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeUser } from 'Redux/Reducers/todo-reducer';
+import { useNavigate } from 'react-router-dom'
 
-const Header = ({
-  isLoggedIn, 
-  setIsLoggedIn,
-  loggedUsername
-  }) => {
-  const setLogOut = () =>{
-    setIsLoggedIn(false)
-  }
+const Header = () => {
+  const { isAuth } = useAuth();
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const {email} = useSelector(state=>state.user)
+
+  const handleLogOut = () => {
+    dispatch(removeUser())
+    navigate('/login')
+  };
 
   return (
     <div className={styles.wrapper} style={{ color: "black" }}>
       {/* <input type="switch"/> */}
-      {!isLoggedIn && (
+      {!isAuth && (
         <div className={styles.buttons}>
           <Link to="/login">
             <button className={styles.logBtn}>Log In</button>
@@ -23,13 +29,11 @@ const Header = ({
           </Link>
         </div>
       )}
-      {isLoggedIn && (
+      {isAuth && (
         <div className={styles.headerWrapper}>
-          <div className={styles.headerTitle}>
-          hi, {loggedUsername}
-          </div>
+          <div className={styles.headerTitle}>hi,  {email}</div>
           <div className={styles.button}>
-            <button onClick={setLogOut} className={styles.logBtn}>
+            <button onClick={handleLogOut} className={styles.logBtn}>
               Log Out
             </button>
           </div>
@@ -37,7 +41,7 @@ const Header = ({
       )}
     </div>
   );
-}
+};
 
 
 export default Header

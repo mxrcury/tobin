@@ -1,21 +1,25 @@
 import React from 'react'
 import Form from '../Form/Form'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../../firebase/firebase'
+import { useDispatch } from 'react-redux'
+import { setUser } from 'Redux/Reducers/todo-reducer'
+import { getAuth } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({setIsLoggedIn}) => {
 
-  const handleLogIn = (data) =>{
-    console.log(data)
-    signInWithEmailAndPassword(auth, data.email, data.password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    // ...
-  })
-  .catch((error) => {
-    alert(error.message)
-  });
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleLogIn = (email,password) =>{
+    const auth = getAuth()
+    signInWithEmailAndPassword(auth,email,password)
+    .then(({user}) => {
+      dispatch(setUser({email:user.email,token:user.accessToken,id:user.uid}))
+      navigate('/')}
+      )
+    .catch((error)=>alert('This user is not found'))
+
   }
 
   return (
