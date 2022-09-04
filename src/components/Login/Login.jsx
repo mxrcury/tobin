@@ -2,7 +2,7 @@ import React from 'react'
 import Form from '../Form/Form'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useDispatch } from 'react-redux'
-import { setUser } from 'Redux/Reducers/todo-reducer'
+import { setLoading, setUser } from 'Redux/Reducers/todo-reducer'
 import { getAuth } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom';
 
@@ -13,12 +13,15 @@ const Login = ({setIsLoggedIn}) => {
 
   const handleLogIn = (email,password) =>{
     const auth = getAuth()
+    dispatch(setLoading({isLoading:true}))
     signInWithEmailAndPassword(auth,email,password)
     .then(({user}) => {
       dispatch(setUser({email:user.email,token:user.accessToken,id:user.uid}))
-      navigate('/')}
+      dispatch(setLoading({isLoading:false}))
+    }
       )
-    .catch((error)=>alert('This user is not found'))
+    .catch((error)=>{alert('This user is not found')
+    dispatch(setLoading({isLoading:false}))})
 
   }
 

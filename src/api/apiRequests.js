@@ -32,3 +32,14 @@ export const tasksAPI = {
         );
     }
 }
+
+const axiosReq = axios.create({
+  baseURL:'https://todo-app-884bd-default-rtdb.europe-west1.firebasedatabase.app/',
+  withCredentials:true
+})
+
+export const tasksReq = {
+  getTasks(){
+    return axiosReq.get(`/tasks`).then(res =>console.log(res))
+  }
+}

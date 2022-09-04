@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { tasksAPI } from "../../api/apiRequests";
+import { tasksAPI, tasksReq } from "../../api/apiRequests";
 
 const SET_TASKS = "SET_TASKS";
 const CHANGE_TEXT = "CHANGE_TEXT";
@@ -14,6 +14,10 @@ const DELETE_TASK = 'DELETE_TASK'
 const ADD_CHECKED_TASK = 'ADD_CHECKED_TASK'
 const DELETE_CHECKED_TASK = 'DELETE_CHECKED_TASK'
 
+const ACCESS_KEY = 'u-access'
+const EMAIL_KEY = 'u-email'
+const ID_KEY = 'u-key'
+
 
 const initialState = {
   tasks: [],
@@ -25,11 +29,14 @@ const initialState = {
   isFetching:false,
   isModalOpen: false,
   user:{
-    email:null,
-    token:null,
-    id:null
+    email: localStorage.getItem(EMAIL_KEY) ?? null,
+    token: localStorage.getItem(ACCESS_KEY) ?? null,
+    id: localStorage.getItem(ID_KEY) ?? null,
+    isLoading:false
   }
 };
+
+
 
 export const todoReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -101,16 +108,26 @@ const userSlice = createSlice({
       state.email = email
       state.token = token
       state.id = id
+      localStorage.setItem(ACCESS_KEY,state.token)
+      localStorage.setItem(EMAIL_KEY,state.email)
+      localStorage.setItem(ID_KEY,state.id)
     },
     removeUser(state){
       state.email = null
       state.token = null
       state.id = null
+      localStorage.removeItem(ACCESS_KEY)
+      localStorage.removeItem(EMAIL_KEY)
+      localStorage.removeItem(ID_KEY)
+    },
+    setLoading(state,action){
+      state.isLoading = action.payload.isLoading
     }
   }
+ 
 })
 
-export const { setUser, removeUser } = userSlice.actions;
+export const { setUser, removeUser,setLoading } = userSlice.actions;
 export const userReducer = userSlice.reducer
 
 
@@ -134,6 +151,11 @@ const deleteSomeTask = (taskId) =>({type:DELETE_TASK,taskId})
 
 export const getTasks = () => (dispatch) =>{
   dispatch(toggleFetching(true))
+
+  // tasksReq.getTasks().then(data=>{
+  //   dispatch(setTasks(data))
+  //   dispatch(toggleFetching(false))})
+
   tasksAPI.getTasks().then((data) => {
     dispatch(setTasks(data))
     dispatch(toggleFetching(false))
