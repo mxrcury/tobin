@@ -7,16 +7,19 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth } from 'firebase/auth';
 import { setLoading } from 'Redux/Reducers/todo-reducer';
-import Preloader from 'components/Container/PreloaderModal/Preloader';
 import { useAuth } from 'hooks/useAuth';
+import { setDoc, doc, Timestamp, addDoc, collection } from 'firebase/firestore';
+import { db } from './../../firebase/firebase';
 
 
 const Register = () => {
+
+  const [isRegisterPage,setIsRegisterPage] = useState(true)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {isAuth} = useAuth()
 
-  const handleRegister = (email,password)=>{
+  const handleRegister = (email,password,username)=>{
     const auth = getAuth()
     if (
       email.length >= 3 &&
@@ -26,8 +29,17 @@ const Register = () => {
     ) {
       dispatch(setLoading({isLoading:true}))
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
+        .then(response => {
+          const usersCollectionRef = collection(db,'users')
+          addDoc(usersCollectionRef, {
+            uid: response.user.uid,
+            username,
+            email,
+            password,
+            createdAt: Timestamp.fromDate(new Date()),
+          });
           dispatch(setLoading({ isLoading: false }));
+
           navigate("/login");
         })
         .catch((error) => {
@@ -48,7 +60,7 @@ const Register = () => {
   return (
     <>
     {isAuth && <Navigate to='/'/>}
-    <Form handleClick={handleRegister} title='Sign Up'/>
+    <Form handleClick={handleRegister} title='Sign Up' isRegisterPage={isRegisterPage}/>
     </>
     )
 }

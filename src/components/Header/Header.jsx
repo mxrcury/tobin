@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeUser, setLoading } from 'Redux/Reducers/todo-reducer';
 import { useNavigate } from 'react-router-dom'
 import Preloader from 'components/Container/PreloaderModal/Preloader';
+import { signOut } from 'firebase/auth';
+import { authGet } from './../../firebase/firebase';
 
 const Header = () => {
   const { isAuth } = useAuth();
@@ -13,10 +15,12 @@ const Header = () => {
   const {email,isLoading} = useSelector(state=>state.user)
 
   const handleLogOut = () => {
-    dispatch(setLoading({isLoading:true}))
-    dispatch(removeUser())
-    dispatch(setLoading({isLoading:false}))
-    navigate('/login')
+    signOut(authGet).then(() => {
+      dispatch(setLoading({ isLoading: true }));
+      dispatch(removeUser());
+      dispatch(setLoading({ isLoading: false }));
+      navigate("/login");
+    });
   };
 
 

@@ -5,13 +5,15 @@ import { useDispatch } from 'react-redux'
 import { setLoading, setUser } from 'Redux/Reducers/todo-reducer'
 import { getAuth } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from './../../firebase/firebase';
 
 const Login = ({setIsLoggedIn}) => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const handleLogIn = (email,password) =>{
+  const handleLogIn = (email,password,username) =>{
     const auth = getAuth()
     if (
       email.length >= 3 &&
