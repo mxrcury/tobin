@@ -10,7 +10,7 @@ import {
   uncompleteTask,
   editTask
 } from "../../Redux/Reducers/todo-reducer";
-import PreloaderModal from "./PreloaderModal/PreloaderModal";
+import PreloaderModal from "./PreloaderModal/Preloader";
 import TodoList from "./TodoList";
 
 class TodoListApiContainer extends React.Component {

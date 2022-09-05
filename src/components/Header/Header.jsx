@@ -4,7 +4,7 @@ import { useAuth } from 'hooks/useAuth';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeUser, setLoading } from 'Redux/Reducers/todo-reducer';
 import { useNavigate } from 'react-router-dom'
-import Preloader from 'components/Container/PreloaderModal/PreloaderModal';
+import Preloader from 'components/Container/PreloaderModal/Preloader';
 
 const Header = () => {
   const { isAuth } = useAuth();

@@ -7,7 +7,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth } from 'firebase/auth';
 import { setLoading } from 'Redux/Reducers/todo-reducer';
-import Preloader from 'components/Container/PreloaderModal/PreloaderModal';
+import Preloader from 'components/Container/PreloaderModal/Preloader';
 import { useAuth } from 'hooks/useAuth';
 
 

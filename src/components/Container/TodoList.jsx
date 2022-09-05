@@ -1,52 +1,26 @@
 import React, { useState } from "react";
 import { TodoItem } from "./TodoItem";
 import styles from "./TodoList.module.css";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import EditModal from './EditModal';
 
 const TodoList = (props) => {
 
   const [taskText,setTaskText] = useState('')
   const [editTaskText,setEditTaskText] = useState('')
-
-
   return (
     <div className={styles.wrapper}>
       {props.isModalOpen ? (
-        <div className={styles.modalWrapper}>
-          <div className={styles.modalWindow}>
-            <textarea
-              type="text"
-              onChange={(e) => {
-                setEditTaskText(e.target.value)
-              }}
-              value={props.isModalOpen ? editTaskText : ""}
-              className={styles.inputModal}
-              placeholder="Edit..."
-              style={editTaskText.length < 1 ? {border:'1px solid rgb(96, 96, 96)'} : {border:'1px solid rgb(173, 173, 173)'}}
-            />
-            <button
-              onClick={() => {
-                if (editTaskText.trim().length) {
-                  props.editTask(props.selectedTask.id,editTaskText);
-                  props.closeModal(false)
-                  setEditTaskText('')
-                }else{
-                  alert('Enter a text')
-                }
-              }}
-              className={styles.saveBtn}
-            >
-              Save changes
-            </button>
-            <button onClick={()=>{
-              props.closeModal()
-              setEditTaskText('')
-              }} className={styles.closeModal}>
-              <CloseOutlinedIcon style={{ cursor: "pointer",color:'rgb(96, 96, 96)',width:'100%' }} />
-            </button>
-          </div>
-        </div>
-      ) : ''}
+        <EditModal
+          editTaskText={editTaskText}
+          setEditTaskText={setEditTaskText}
+          closeModal={props.closeModal}
+          isModalOpen={props.isModalOpen}
+          editTask={props.editTask}
+          selectedTask={props.selectedTask}
+        />
+      ) : (
+        ""
+      )}
       <div>
         <div className={styles.todoListForm}>
           <h3 className={styles.title}>Add a task</h3>
@@ -55,13 +29,17 @@ const TodoList = (props) => {
               placeholder="Write a task..."
               autoFocus
               value={taskText}
-              onChange={(e)=>setTaskText(e.target.value)}
+              onChange={(e) => setTaskText(e.target.value)}
               className={styles.inputItems}
             />
-            <button onClick={(e) =>{
-              e.preventDefault()
-             props.addTask(taskText)
-             setTaskText('')}} className={styles.addItemBtn}>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                props.addTask(taskText);
+                setTaskText("");
+              }}
+              className={styles.addItemBtn}
+            >
               Add
             </button>
           </form>
