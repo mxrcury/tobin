@@ -38,7 +38,8 @@ export const TodoItem = (props) => {
         <button
           onClick={() => {
             props.openModal(true)
-            props.fillSelectedTask(props.task.id)
+            props.setEditTaskText(props.task.taskTitle)
+            props.fillSelectedTask(props.task.id,props.taskTitle)
           }}
           className={styles.editBtn}
         >

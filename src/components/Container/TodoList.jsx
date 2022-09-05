@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { createRef } from "react";
 import { TodoItem } from "./TodoItem";
 import styles from "./TodoList.module.css";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
@@ -9,29 +8,17 @@ const TodoList = (props) => {
   const [taskText,setTaskText] = useState('')
   const [editTaskText,setEditTaskText] = useState('')
 
-  const inputEl = createRef();
-  const editInputEl = createRef();
-
-
-
-  const changeText = () => {
-    props.changeText(inputEl.current.value);
-  };
-
-
 
   return (
     <div className={styles.wrapper}>
       {props.isModalOpen ? (
         <div className={styles.modalWrapper}>
           <div className={styles.modalWindow}>
-            {/* !!!!!!! */}
             <textarea
               type="text"
               onChange={(e) => {
                 setEditTaskText(e.target.value)
               }}
-              ref={editInputEl}
               value={props.isModalOpen ? editTaskText : ""}
               className={styles.inputModal}
               placeholder="Edit..."
@@ -51,7 +38,10 @@ const TodoList = (props) => {
             >
               Save changes
             </button>
-            <button onClick={props.closeModal} className={styles.closeModal}>
+            <button onClick={()=>{
+              props.closeModal()
+              setEditTaskText('')
+              }} className={styles.closeModal}>
               <CloseOutlinedIcon style={{ cursor: "pointer",color:'rgb(96, 96, 96)',width:'100%' }} />
             </button>
           </div>
@@ -66,7 +56,6 @@ const TodoList = (props) => {
               autoFocus
               value={taskText}
               onChange={(e)=>setTaskText(e.target.value)}
-              ref={inputEl}
               className={styles.inputItems}
             />
             <button onClick={(e) =>{
@@ -89,35 +78,10 @@ const TodoList = (props) => {
             openModal={props.openModal}
             fillSelectedTask={props.fillSelectedTask}
             selectedTask={props.selectedTask}
-            deletingTaskProgress={props.deletingTaskProgress}
-            deletingTaskInProgress={props.deletingTaskInProgress}
-            checkedTasks={props.checkedTasks}
+            setEditTaskText={setEditTaskText}
           />
         );
       })}
-     
-     
-     
-     {/* {props.tasks.map((task) => (
-          <div className={styles.todoWrapper}>
-            <input
-              type="checkbox"
-              value={props.taskText}
-              className={styles.checkbox}
-            />
-            <div>
-              <div className={styles.todoItem}>{task.taskTitle}</div>
-            </div>
-          </div>
-        ))} */}
-      {/* {props.todoItems.map((el) => (
-          <div className={styles.todoWrapper}
-          onClick={(e)=>{el.completed ? uncompleteTask(el.id) : completeTask(el.id)}}
-          >
-            <input type="checkbox" checked={el.completed ? 'checked' : ''} className={styles.checkbox} />
-            <div className={`${el.completed ? styles.completedTask : ''} ${styles.todoItem}`}>{el.title}</div>
-          </div>
-        ))} */}
     </div>
   );
 };

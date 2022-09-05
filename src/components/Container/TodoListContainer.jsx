@@ -3,12 +3,7 @@ import { connect } from "react-redux";
 import {
   getTasks,
   addTask,
-  changeText,
-  updateTask,
-  editTaskText,
-  toggleModal,
   fillSelectedTask,
-  toggleFetching,
   setTasks,
   deleteTask,
   completeTask,
@@ -19,15 +14,16 @@ import PreloaderModal from "./PreloaderModal/PreloaderModal";
 import TodoList from "./TodoList";
 
 class TodoListApiContainer extends React.Component {
-  fetchGetRequest = () => {
-    this.props.getTasks()
-  };
   componentDidMount() {
-    this.fetchGetRequest();
+    this.props.getTasks()
   }
   addTask = (taskText) => {
+    if(taskText.trim().length > 1){
       this.props.addTask(taskText)
-  };
+    }else{
+      alert('ENTER A TEXT IDIOT')
+    }
+  }
   deleteTask = (taskId) => {
     this.props.deleteTask(taskId)
   };
@@ -40,16 +36,14 @@ class TodoListApiContainer extends React.Component {
   editTask = (taskId,taskText) => {
       this.props.editTask(taskId,taskText)
   };
-
   state ={
     isModalOpen:false
   }
   openModal= () =>{
-    this.state.isModalOpen = true;
+    this.setState({isModalOpen:true})
   }
   closeModal = () =>{
-    this.state.isModalOpen = false;
-    this.props.editTaskText('');
+    this.setState({isModalOpen:false})
     this.props.fillSelectedTask(null)
   }
   render() {
@@ -72,22 +66,13 @@ class TodoListApiContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
   tasks: state.todoList.tasks,
-  taskText: state.todoList.taskText,
-  isFetching: state.todoList.isFetching,
-  editedTaskText: state.todoList.editedTaskText,
   selectedTask:state.todoList.selectedTask,
-  checkedTasks:state.todoList.checkedTasks
 });
 
 export default connect(mapStateToProps, {
   getTasks,
   addTask,
-  changeText,
-  updateTask,
-  editTaskText,
-  toggleModal,
   fillSelectedTask,
-  toggleFetching,
   setTasks,
   deleteTask,
   completeTask,
