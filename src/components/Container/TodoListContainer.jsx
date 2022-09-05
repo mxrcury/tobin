@@ -25,15 +25,8 @@ class TodoListApiContainer extends React.Component {
   componentDidMount() {
     this.fetchGetRequest();
   }
-  addTask = (e) => {
-    if (this.props.taskText.trim().length) {
-      e.preventDefault()
-      this.props.addTask(this.props.taskText)
-    } else {
-      e.preventDefault()
-      this.props.changeText('');
-      alert("Enter a text, idiot");
-    }
+  addTask = (taskText) => {
+      this.props.addTask(taskText)
   };
   deleteTask = (taskId) => {
     this.props.deleteTask(taskId)
@@ -44,8 +37,8 @@ class TodoListApiContainer extends React.Component {
   uncompleteTask = (taskId) => {
       this.props.uncompleteTask(taskId)
   };
-  editTask = (taskId) => {
-      this.props.editTask(taskId,this.props.editedTaskText)
+  editTask = (taskId,taskText) => {
+      this.props.editTask(taskId,taskText)
   };
 
   state ={

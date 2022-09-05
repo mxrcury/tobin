@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { tasksAPI, tasksReq } from "../../api/apiRequests";
+import { getTasksReq, delTaskReq, addTaskReq, toggleTaskCompleteReq, editTaskReq } from 'api/apiRequests';
 
 const SET_TASKS = "SET_TASKS";
 const CHANGE_TEXT = "CHANGE_TEXT";
@@ -21,9 +21,7 @@ const ID_KEY = 'u-key'
 
 const initialState = {
   tasks: [],
-  taskText: "",
   createdTask:{},
-  editedTaskText: "",
   selectedTask:{},
   checkedTasks:[],
   isFetching:false,
@@ -76,7 +74,6 @@ export const todoReducer = (state = initialState, action) => {
         selectedTask: {
           ...state.selectedTask,
           id: action.id,
-          taskTitle: action.taskTitle,
         },
       };
     case TOGGLE_FETCHING:
@@ -140,9 +137,8 @@ export const editTaskText = (newText) => ({
   text: newText,
 });
 export const toggleModal = (toggleModal) => ({ type: TOGGLE_MODAL, toggleModal });
-export const fillSelectedTask = (id,title) =>({type:FILL_SELECTED_TASK,id,taskTitle:title})
+export const fillSelectedTask = (id) =>({type:FILL_SELECTED_TASK,id})
 export const toggleFetching = (isFetching) =>({type:TOGGLE_FETCHING,isFetching})
-export const createTask = (taskTitle) =>({type:CREATE_TASK,taskTitle})
 const addNewTask = (taskData) =>({type:ADD_TASK,taskData})
 const deleteSomeTask = (taskId) =>({type:DELETE_TASK,taskId})
 // const addCheckedTask = (task) =>({type:ADD_CHECKED_TASK,task})
@@ -150,51 +146,36 @@ const deleteSomeTask = (taskId) =>({type:DELETE_TASK,taskId})
 
 
 export const getTasks = () => (dispatch) =>{
-  dispatch(toggleFetching(true))
-
-  // tasksReq.getTasks().then(data=>{
-  //   dispatch(setTasks(data))
-  //   dispatch(toggleFetching(false))})
-
-  tasksAPI.getTasks().then((data) => {
-    dispatch(setTasks(data))
-    dispatch(toggleFetching(false))
-  });
-}
-export const addTask = (taskText) => (dispatch)=>{
-  tasksAPI
-    .addTask(dispatch(createTask(taskText)))
-    .then((response) => {
-      dispatch(addNewTask(response.data))
-      dispatch(changeText(""))
+  getTasksReq()
+    .then((data) => {
+      dispatch(setTasks(data));
     })
-    .catch((error) => alert(error));
+    .catch((error) => alert(`Error:${error.message}`));
 }
+export const addTask = (taskText) =>(dispatch)=>{
+  addTaskReq(taskText).then((response) => {
+      dispatch(getTasks())
+    }).catch(error => alert(`Error:${error.message}`))
+}
+
+
 export const deleteTask = (taskId) => (dispatch)=>{
-  dispatch(toggleFetching(true))
-    tasksAPI.deleteTask(taskId).then((data) => {
-        console.log(data)
-        dispatch(deleteSomeTask(taskId))
-        initialState.checkedTasks.filter(el=>el.id != taskId)
-        dispatch(toggleFetching(false))
-        console.log(`Task was deleted`);
-      });
+    delTaskReq(taskId).then((data) => {
+        dispatch(getTasks())
+      }).catch(error => alert(`Error:${error.message}`))
 }
 export const completeTask = (taskId) => (dispatch) =>{
-  tasksAPI.toggleTaskCompleting(taskId,true).then((response) => {
+  toggleTaskCompleteReq(taskId,true).then((response) => {
    dispatch(getTasks())
-  });
+  }).catch(error => alert(`Error:${error.message}`))
 }
 export const uncompleteTask = (taskId) => (dispatch) =>{
-  tasksAPI.toggleTaskCompleting(taskId,false).then((response) => {
+  toggleTaskCompleteReq(taskId,false).then((response) => {
     dispatch(getTasks())
-    // dispatch(deleteCheckedTask(taskId))
-  });
+  }).catch(error => alert(`Error:${error.message}`))
 }
 export const editTask = (taskId,taskText) => (dispatch)=>{
-  tasksAPI.editTask(taskId,taskText,false).then((response) => {
-    console.log('Task has been edited')
+  editTaskReq(taskId,taskText,false).then((response) => {
     dispatch(getTasks())
-    dispatch(changeText(''))
-  });
+  }).catch(error => alert(`Error:${error.message}`))
 }

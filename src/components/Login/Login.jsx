@@ -13,6 +13,12 @@ const Login = ({setIsLoggedIn}) => {
 
   const handleLogIn = (email,password) =>{
     const auth = getAuth()
+    if (
+      email.length >= 3 &&
+      password.length >= 6 &&
+      email.includes("@") &&
+      email.includes(".")
+    ) {
     dispatch(setLoading({isLoading:true}))
     signInWithEmailAndPassword(auth,email,password)
     .then(({user}) => {
@@ -20,8 +26,18 @@ const Login = ({setIsLoggedIn}) => {
       dispatch(setLoading({isLoading:false}))
     }
       )
-    .catch((error)=>{alert('This user is not found')
+    .catch((error)=>{alert(`Error: ${error.code}`)
     dispatch(setLoading({isLoading:false}))})
+  }
+  if (!email.includes("@") && !email.includes(".")) {
+    alert("INVALID EMAIL");
+  }
+  if(email.length < 3){
+    alert('Email should contain more characters')
+  }
+  if(password.length < 6){
+    alert('Password length should be not less than 6 characters')
+  }
 
   }
 

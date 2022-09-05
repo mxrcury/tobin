@@ -6,6 +6,8 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 const TodoList = (props) => {
 
+  const [taskText,setTaskText] = useState('')
+  const [editTaskText,setEditTaskText] = useState('')
 
   const inputEl = createRef();
   const editInputEl = createRef();
@@ -18,11 +20,6 @@ const TodoList = (props) => {
 
 
 
-  const editTaskText = () => {
-    props.editTaskText(editInputEl.current.value);
-  };
-
-
   return (
     <div className={styles.wrapper}>
       {props.isModalOpen ? (
@@ -31,20 +28,21 @@ const TodoList = (props) => {
             {/* !!!!!!! */}
             <textarea
               type="text"
-              onChange={() => {
-                editTaskText();
+              onChange={(e) => {
+                setEditTaskText(e.target.value)
               }}
               ref={editInputEl}
-              value={props.isModalOpen ? props.editedTaskText : ""}
+              value={props.isModalOpen ? editTaskText : ""}
               className={styles.inputModal}
               placeholder="Edit..."
-              style={props.editedTaskText.length < 1 ? {border:'1px solid rgb(96, 96, 96)'} : {border:'1px solid rgb(173, 173, 173)'}}
+              style={editTaskText.length < 1 ? {border:'1px solid rgb(96, 96, 96)'} : {border:'1px solid rgb(173, 173, 173)'}}
             />
             <button
               onClick={() => {
-                if (props.editedTaskText.trim().length) {
-                  props.editTask(props.selectedTask.id);
+                if (editTaskText.trim().length) {
+                  props.editTask(props.selectedTask.id,editTaskText);
                   props.closeModal(false)
+                  setEditTaskText('')
                 }else{
                   alert('Enter a text')
                 }
@@ -66,12 +64,15 @@ const TodoList = (props) => {
             <input
               placeholder="Write a task..."
               autoFocus
-              value={props.taskText}
-              onChange={changeText}
+              value={taskText}
+              onChange={(e)=>setTaskText(e.target.value)}
               ref={inputEl}
               className={styles.inputItems}
             />
-            <button onClick={props.addTask} className={styles.addItemBtn}>
+            <button onClick={(e) =>{
+              e.preventDefault()
+             props.addTask(taskText)
+             setTaskText('')}} className={styles.addItemBtn}>
               Add
             </button>
           </form>
