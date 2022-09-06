@@ -48,7 +48,7 @@ const Register = () => {
         });
     }
     if (!email.includes("@") && !email.includes(".")) {
-      alert("INVALID EMAIL");
+      alert("Invalid email");
     }
     if(email.length < 3){
       alert('Email should contain more characters')

@@ -28,7 +28,7 @@ const TodoListApiContainerCopy = (props) =>{
       props.addTask(taskText,props.id)
       props.getTasks(props.id)
     }else{
-      alert('ENTER A TEXT IDIOT')
+      alert('Please enter a text')
     }
   }
   const deleteTask = (taskId) => {
