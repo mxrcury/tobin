@@ -1,15 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getTasksReq, delTaskReq, addTaskReq, toggleTaskCompleteReq, editTaskReq } from 'api/apiRequests';
+import { useAuth } from 'hooks/useAuth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from "./../../firebase/firebase";
 
 const SET_TASKS = "SET_TASKS";
 const TOGGLE_MODAL = "TOGGLE_MODAL";
 const FILL_SELECTED_TASK = 'FILL_SELECTED_TASK'
 const ADD_TASK = 'ADD_TASK'
+const GET_TASKS = 'GET_TASKS'
 const DELETE_TASK = 'DELETE_TASK'
 
 const ACCESS_KEY = 'u-access'
 const EMAIL_KEY = 'u-email'
 const ID_KEY = 'u-key'
+const USERNAME_KEY = 'u-username'
 
 
 const initialState = {
@@ -23,6 +28,7 @@ const initialState = {
     email: localStorage.getItem(EMAIL_KEY) ?? null,
     token: localStorage.getItem(ACCESS_KEY) ?? null,
     id: localStorage.getItem(ID_KEY) ?? null,
+    username:localStorage.getItem(USERNAME_KEY) ?? '',
     isLoading:false
   }
 };
@@ -38,7 +44,13 @@ export const todoReducer = (state = initialState, action) => {
     case DELETE_TASK:
       return {
         ...state,
-        tasks: [...state.tasks.filter((el) => el.id !== action.taskId)],
+        tasks: [
+          ...state.tasks.filter((el, index) => {
+            if (index !== action.taskId) {
+              return el
+            }
+          }),
+        ],
       };
     case TOGGLE_MODAL:
       return { ...state, isModalOpen: action.toggleModal };
@@ -77,6 +89,12 @@ const userSlice = createSlice({
       localStorage.removeItem(EMAIL_KEY)
       localStorage.removeItem(ID_KEY)
     },
+    setUsername(state,action){
+      const {username} = action.payload
+      state.username = username
+      localStorage.setItem(USERNAME_KEY,action.payload.username)
+      //localStorage.removeItem(USERNAME_KEY)
+    },
     setLoading(state,action){
       state.isLoading = action.payload.isLoading
     }
@@ -84,45 +102,53 @@ const userSlice = createSlice({
  
 })
 
-export const { setUser, removeUser,setLoading } = userSlice.actions;
+export const { setUser, removeUser,setLoading,setUsername } = userSlice.actions;
 export const userReducer = userSlice.reducer
 
 export const setTasks = (tasks) => ({ type: SET_TASKS, tasks });
+export const delTask = (taskId) =>({type:DELETE_TASK,taskId})
 export const toggleModal = (toggleModal) => ({ type: TOGGLE_MODAL, toggleModal });
 export const fillSelectedTask = (id,taskTitle) =>({type:FILL_SELECTED_TASK,id,taskTitle})
 
 
-export const getTasks = () => (dispatch) =>{
-  getTasksReq()
+export const getTasks = (userId) => (dispatch) =>{
+  getTasksReq(userId)
     .then((data) => {
       dispatch(setTasks(data));
+      const userDoc = doc(db, "users", userId);
+      getDoc(userDoc).then(userData =>{
+        const username = userData.data().username
+        dispatch(setUsername({username}))
+      })
     })
-    .catch((error) => alert(`Error:${error.message}`));
+    .catch((error) => console.error(`Error:${error.message}`));
 }
-export const addTask = (taskText) =>(dispatch)=>{
-  addTaskReq(taskText).then((response) => {
+export const addTask = (taskText,userId) =>(dispatch)=>{
+  addTaskReq(taskText,userId).then((response) => {
       dispatch(getTasks())
     }).catch(error => alert(`Error:${error.message}`))
 }
+export const deleteTask = (userId,taskId) => (dispatch)=>{
 
-
-export const deleteTask = (taskId) => (dispatch)=>{
-    delTaskReq(taskId).then((data) => {
-        dispatch(getTasks())
+  delTaskReq(userId,taskId).then((data) => {
+        dispatch(getTasks(userId))
       }).catch(error => alert(`Error:${error.message}`))
 }
-export const completeTask = (taskId) => (dispatch) =>{
-  toggleTaskCompleteReq(taskId,true).then((response) => {
-   dispatch(getTasks())
-  }).catch(error => alert(`Error:${error.message}`))
+
+
+export const completeTask = (userId,taskId) => (dispatch) =>{
+  toggleTaskCompleteReq(userId,taskId,true).then((response) => {
+   dispatch(getTasks(userId))
+  }).catch(error => console.log(`Error:${error.message}`))
+
 }
-export const uncompleteTask = (taskId) => (dispatch) =>{
-  toggleTaskCompleteReq(taskId,false).then((response) => {
-    dispatch(getTasks())
-  }).catch(error => alert(`Error:${error.message}`))
+export const uncompleteTask = (userId,taskId) => (dispatch) =>{
+  toggleTaskCompleteReq(userId,taskId,false).then((response) => {
+    dispatch(getTasks(userId))
+  }).catch(error => console.log(`Error:${error.message}`))
 }
-export const editTask = (taskId,taskText) => (dispatch)=>{
-  editTaskReq(taskId,taskText,false).then((response) => {
-    dispatch(getTasks())
+export const editTask = (userId,taskId,taskText) => (dispatch)=>{
+  editTaskReq(userId,taskId,taskText,false).then((response) => {
+    dispatch(getTasks(userId))
   }).catch(error => alert(`Error:${error.message}`))
 }

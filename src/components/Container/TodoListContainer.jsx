@@ -8,24 +8,30 @@ import {
   deleteTask,
   completeTask,
   uncompleteTask,
-  editTask
+  editTask,
+  delTask
 } from "../../Redux/Reducers/todo-reducer";
 import PreloaderModal from "./PreloaderModal/Preloader";
 import TodoList from "./TodoList";
 
 class TodoListApiContainer extends React.Component {
   componentDidMount() {
-    this.props.getTasks()
+    this.props.getTasks(this.props.id)
   }
   addTask = (taskText) => {
     if(taskText.trim().length > 1){
-      this.props.addTask(taskText)
+      this.props.addTask(taskText,this.props.id)
+      this.props.getTasks(this.props.id)
     }else{
       alert('ENTER A TEXT IDIOT')
     }
   }
   deleteTask = (taskId) => {
-    this.props.deleteTask(taskId)
+    debugger
+    this.props.delTask(taskId)
+    console.log(this.props.tasks)
+    debugger
+    this.props.deleteTask(this.props.id,this.props.tasks)
   };
   completeTask = (taskId) => {
       this.props.completeTask(taskId)
@@ -67,6 +73,7 @@ class TodoListApiContainer extends React.Component {
 const mapStateToProps = (state) => ({
   tasks: state.todoList.tasks,
   selectedTask:state.todoList.selectedTask,
+  id:state.user.id
 });
 
 export default connect(mapStateToProps, {
@@ -77,5 +84,6 @@ export default connect(mapStateToProps, {
   deleteTask,
   completeTask,
   uncompleteTask,
-  editTask
+  editTask,
+  delTask
 })(TodoListApiContainer);

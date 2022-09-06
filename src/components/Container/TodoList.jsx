@@ -4,7 +4,6 @@ import styles from "./TodoList.module.css";
 import EditModal from './EditModal';
 
 const TodoList = (props) => {
-
   const [taskText,setTaskText] = useState('')
   const [editTaskText,setEditTaskText] = useState('')
   return (
@@ -45,7 +44,7 @@ const TodoList = (props) => {
           </form>
         </div>
       </div>
-      {props.tasks.map((task) => {
+      {props.tasks.map(task => {
         return (
           <TodoItem
             task={task}

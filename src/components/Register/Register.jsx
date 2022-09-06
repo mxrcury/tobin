@@ -29,17 +29,17 @@ const Register = () => {
     ) {
       dispatch(setLoading({isLoading:true}))
       createUserWithEmailAndPassword(auth, email, password)
-        .then(response => {
-          const usersCollectionRef = collection(db,'users')
-          addDoc(usersCollectionRef, {
-            uid: response.user.uid,
+        .then(credential => {
+          const usersRef = doc(db,'users',credential.user.uid)
+          const tasksRef = collection(usersRef,'tasks')
+          setDoc(usersRef,{
+            uid: credential.user.uid,
             username,
             email,
             password,
             createdAt: Timestamp.fromDate(new Date()),
           });
           dispatch(setLoading({ isLoading: false }));
-
           navigate("/login");
         })
         .catch((error) => {

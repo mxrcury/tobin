@@ -12,7 +12,10 @@ const Header = () => {
   const { isAuth } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const {email,isLoading} = useSelector(state=>state.user)
+  const {email,username,isLoading} = useSelector(state=>state.user)
+
+  
+
 
   const handleLogOut = () => {
     signOut(authGet).then(() => {
@@ -40,7 +43,7 @@ const Header = () => {
       )}
       {isAuth && (
         <div className={styles.headerWrapper}>
-          <div className={styles.headerTitle}>hi,  {email}</div>
+          <div className={styles.headerTitle}>hi,  {username}</div>
           <div className={styles.button}>
             <button onClick={handleLogOut} className={styles.logBtn}>
               Log Out

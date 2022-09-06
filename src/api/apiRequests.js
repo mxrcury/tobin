@@ -1,25 +1,36 @@
-import axios from 'axios'
-import { db } from './../firebase/firebase';
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore'
+import axios from "axios";
+import { db } from "./../firebase/firebase";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 
-const tasksCollectionRef = collection(db,'tasks')
 
-export const getTasksReq = async () =>{
-  const data = await getDocs(tasksCollectionRef)
+export const getTasksReq = async (userId) => {
+  const userDoc = doc(db, "users", userId);
+  const tasksRef = collection(userDoc,'tasks')
+  const data = await getDocs(tasksRef)
   return (data.docs.map(doc=>({...doc.data(),id:doc.id})))
-}
-export const addTaskReq = async (taskTitle) =>{
-  return await addDoc(tasksCollectionRef,{taskTitle,isDone:false})
-}
-export const delTaskReq = async (id) =>{
-  const newDoc = doc(db,'tasks',id)
-  return await deleteDoc(newDoc)
-}
-export const toggleTaskCompleteReq = async (id,isDone) =>{
-  const newDoc = doc(db,'tasks',id)
-  return await updateDoc(newDoc,{isDone})
-}
-export const editTaskReq = async (id,taskTitle,isDone)=>{
-  const newDoc= doc(db,'tasks',id)
-  return await updateDoc(newDoc,{taskTitle,isDone})
-}
+};
+export const addTaskReq = async (taskTitle, userId) => {
+  const userDoc = doc(db, "users", userId);
+  const tasksRef = collection(userDoc,'tasks')
+  return await addDoc(tasksRef, { taskTitle, isDone: false,createdAt:new Date().toString() });
+};
+export const delTaskReq = async (userId, taskId) => {
+  const taskRef = doc(db, "users", userId, 'tasks', taskId);
+  return await deleteDoc(taskRef)
+};
+
+export const toggleTaskCompleteReq = async (userId,taskId, isDone) => {
+  const taskRef = doc(db, "users", userId, 'tasks', taskId);
+  return await updateDoc(taskRef, { isDone });
+};
+export const editTaskReq = async (userId,taskId, taskTitle, isDone) => {
+  const taskRef = doc(db, "users", userId, 'tasks', taskId);
+  return await updateDoc(taskRef, { taskTitle, isDone });
+};
