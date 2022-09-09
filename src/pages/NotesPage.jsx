@@ -1,21 +1,25 @@
-import React from 'react'
-import { useAuth } from 'hooks/useAuth';
-import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import Preloader from 'components/Container/PreloaderModal/Preloader';
-import Notes from 'components/Notes/Notes';
+import React from "react";
+import { useAuth } from "hooks/useAuth";
+import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import Preloader from "components/Container/PreloaderModal/Preloader";
+import Notes from "components/Notes/Notes";
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+    margin-top:100px;
+`
 
 const NotesPage = () => {
-    const {isAuth} = useAuth()
-  const {isLoading} = useSelector(state=>state.user)
+  const { isAuth } = useAuth();
+  const { isLoading } = useSelector((state) => state.user);
   return (
-    <div>
-        {!isAuth && <Navigate replace to="/login" />}
-      {isLoading && <Preloader/>}
-      <h1 style={{color:'black'}} >Hello Im Notes</h1>
-      <Notes/>
-    </div>
-  )
-}
+    <Wrapper>
+      {!isAuth && <Navigate replace to="/login" />}
+      {isLoading && <Preloader />}
+      <Notes />
+    </Wrapper>
+  );
+};
 
-export default NotesPage
+export default NotesPage;

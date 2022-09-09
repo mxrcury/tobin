@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { TodoItem } from "./TodoItem";
 import styles from "./TodoList.module.css";
 import EditModal from './EditModal';
+import { useInput } from './../../hooks/useInput';
 
 const TodoList = (props) => {
-  const [taskText,setTaskText] = useState('')
-  const [editTaskText,setEditTaskText] = useState('')
+  const inputTasks = useInput()
+  const inputEdit = useInput()
   return (
     <div className={styles.wrapper}>
       {props.isModalOpen ? (
         <EditModal
-          editTaskText={editTaskText}
-          setEditTaskText={setEditTaskText}
+          inputEdit={inputEdit}
           closeModal={props.closeModal}
           isModalOpen={props.isModalOpen}
           editTask={props.editTask}
@@ -27,15 +27,14 @@ const TodoList = (props) => {
             <input
               placeholder="Write a task..."
               autoFocus
-              value={taskText}
-              onChange={(e) => setTaskText(e.target.value)}
+              {...inputTasks.bind}
               className={styles.inputItems}
             />
             <button
               onClick={(e) => {
                 e.preventDefault();
-                props.addTask(taskText);
-                setTaskText("");
+                props.addTask(inputTasks.bind.value);
+                inputTasks.clear()
               }}
               className={styles.addItemBtn}
             >
@@ -55,7 +54,7 @@ const TodoList = (props) => {
             openModal={props.openModal}
             fillSelectedTask={props.fillSelectedTask}
             selectedTask={props.selectedTask}
-            setEditTaskText={setEditTaskText}
+            inputEdit={inputEdit}
           />
         );
       })}

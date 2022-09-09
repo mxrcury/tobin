@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./TodoItem.module.css";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import DriveFileRenameOutlineOutlinedIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
+import { useInput } from './../../hooks/useInput';
 
 export const TodoItem = (props) => {
   return (
@@ -38,7 +39,7 @@ export const TodoItem = (props) => {
         <button
           onClick={() => {
             props.openModal(true)
-            props.setEditTaskText(props.task.taskTitle)
+            props.inputEdit.setSomeValue(props.task.taskTitle)
             props.fillSelectedTask(props.task.id,props.taskTitle)
           }}
           className={styles.editBtn}

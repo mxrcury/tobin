@@ -7,19 +7,22 @@ import { useState } from "react";
 import "./firebase/firebase";
 import PresentPage from "./pages/PresentPage";
 import NotesPage from "pages/NotesPage";
+import { useAuth } from 'hooks/useAuth';
 
 const App = () => {
+  const {isAuth} = useAuth()
+
   return (
     <div className="app-container">
       <Header />
-      <div>
+      {isAuth && <div>
         <div>
           <Link to="/todos">Todos</Link>
         </div>
         <div>
           <Link to="/notes">Notes</Link>
         </div>
-      </div>
+      </div>}
       <Routes>
         <Route path="/todo-app/" element={<PresentPage />} />
         <Route path="/todos" element={<ToDoPage />} />
