@@ -1,19 +1,21 @@
 import React from 'react'
-import Login from '../components/Login/Login'
-import { Navigate } from "react-router-dom";
 import { useAuth } from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import Preloader from 'components/Container/PreloaderModal/Preloader';
+import Notes from 'components/Notes/Notes';
 
-const LoginPage = (props) => {
-  const {isAuth} = useAuth()
+const NotesPage = () => {
+    const {isAuth} = useAuth()
   const {isLoading} = useSelector(state=>state.user)
   return (
     <div>
+        {!isAuth && <Navigate replace to="/login" />}
       {isLoading && <Preloader/>}
-      { isAuth ? <Navigate replace to='/todos'/> : <Login {...props} />}
+      <h1 style={{color:'black'}} >Hello Im Notes</h1>
+      <Notes/>
     </div>
-  );
+  )
 }
 
-export default LoginPage
+export default NotesPage

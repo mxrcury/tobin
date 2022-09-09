@@ -5,7 +5,7 @@ import { useAuth } from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
 import Preloader from "components/Container/PreloaderModal/Preloader";
 
-const HomePage = (props) => {
+const ToDoPage = (props) => {
   const {isAuth} = useAuth()
   const {isLoading} = useSelector(state=>state.user)
 
@@ -18,4 +18,4 @@ const HomePage = (props) => {
   );
 };
 
-export default HomePage;
+export default ToDoPage;

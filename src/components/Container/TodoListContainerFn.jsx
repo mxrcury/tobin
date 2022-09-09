@@ -22,7 +22,7 @@ const TodoListApiContainerCopy = (props) =>{
 
   useEffect(() => {
     props.getTasks(props.id)
-  },[])
+  },[props.tasks])
   const addTask = (taskText) => {
     if(taskText.trim().length > 1){
       props.addTask(taskText,props.id)

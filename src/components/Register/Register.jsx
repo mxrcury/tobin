@@ -59,7 +59,7 @@ const Register = () => {
   }
   return (
     <>
-    {isAuth && <Navigate to='/'/>}
+    {isAuth && <Navigate to='/todos'/>}
     <Form handleClick={handleRegister} title='Sign Up' isRegisterPage={isRegisterPage}/>
     </>
     )
