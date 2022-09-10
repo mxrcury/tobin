@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 
 
+//Tasks requests
 export const getTasksReq = async (userId) => {
   const userDoc = doc(db, "users", userId);
   const tasksRef = collection(userDoc,'tasks')
@@ -34,3 +35,20 @@ export const editTaskReq = async (userId,taskId, taskTitle, isDone) => {
   const taskRef = doc(db, "users", userId, 'tasks', taskId);
   return await updateDoc(taskRef, { taskTitle, isDone });
 };
+
+// Notes requests
+// export const getNotesReq = async (userId) => {
+//   const userDoc = doc(db, "users", userId);
+//   const notesRef = collection(userDoc,'notes')
+//   const data = await getDocs(notesRef)
+//   return (data.docs.map(doc=>({...doc.data(),id:doc.id})))
+// };
+// export const addNoteReq = async (noteTitle,noteText, userId) => {
+//   const userDoc = doc(db, "users", userId);
+//   const notesRef = collection(userDoc,'notes')
+//   return await addDoc(notesRef, { noteTitle, noteText,createdAt:new Date().toString() });
+// };
+// export const delNoteReq = async (userId, noteId) => {
+//   const notesRef = doc(db, "users", userId, 'notes', noteId);
+//   return await deleteDoc(notesRef)
+// };
