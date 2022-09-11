@@ -12,6 +12,9 @@ import { setNotes } from "Redux/Reducers/notes-reducer";
 const Wrapper = styled.div`
   width: 760px;
   margin: 0 auto;
+  @media only screen and (max-width: 760px) {
+    width: 100%;
+  }
 `;
 const Form = styled.form`
   display: flex;
@@ -44,6 +47,9 @@ const Button = styled.button`
   &:hover {
     background: rgba(140, 140, 140, 0.3);
   }
+  @media only screen and (max-width: 760px) {
+    display: none;
+  }
 `;
 const Container = styled.div`
   width: 100%;
@@ -52,16 +58,27 @@ const Container = styled.div`
   gap: 10px;
   margin-top: 20px;
   grid-template-columns: repeat(3, 33%);
+  @media only screen and (max-width: 760px) {
+    grid-template-columns: repeat(2, 46%);
+    width: 96%;
+    place-content: center;
+  }
 `;
 const Item = styled.div`
-  width: 90%;
+  width: 100%;
   border-radius: 10px;
-  background: #D78045 ;
+  background: #d78045;
   position: relative;
-  padding:10px 10px;
+  @media only screen and (max-width: 760px) {
+    min-height: 140px;
+  }
 `;
 const NewItem = styled(Item)`
-  background: #6B8E6E;
+  background: #6b8e6e;
+  padding: 10px 0px;
+  @media only screen and (max-width: 760px) {
+    padding: 0;
+  }
 `;
 const Textarea = styled.textarea`
   height: 30px;
@@ -69,15 +86,18 @@ const Textarea = styled.textarea`
   resize: none;
   overflow: hidden;
   min-height: 50px;
-  height:70%;
-  width:87%;
+  height: 60%;
+  width: 87%;
   background: transparent;
   color: white;
   outline: 0;
   border: 0;
   font-family: -apple-system, "SF Pro", sans-serif;
   ::placeholder {
-    color: rgba(255,255,255,0.5);
+    color: rgba(255, 255, 255, 0.5);
+  }
+  @media only screen and (max-width: 660px) {
+    width: 81%;
   }
 `;
 const AddButton = styled.button`
@@ -101,13 +121,14 @@ const TitleInput = styled.input`
   color: white;
   background: transparent;
   border: 0;
-  font-size:18px;
+  font-size: 18px;
   outline: 0;
-  padding: 0 4px;
-  margin-bottom:5px;
+  padding: 4px 5px 0;
+  width: 90%;
+  margin-bottom: 2px;
   &::placeholder {
-    font-size:16px;
-    color: rgba(255,255,255,0.5);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.5);
   }
 `;
 // const Button = styled.button`
@@ -125,6 +146,8 @@ const ButtonDelete = styled.button`
   background: transparent;
   padding: 0;
   cursor: pointer;
+  @media only screen and (max-width: 760px) {
+  }
 `;
 
 const Notes = (props) => {
@@ -147,28 +170,50 @@ const Notes = (props) => {
         </Button>
       </Form>
       <Container>
-        {props.notes != undefined && props.notes.filter((el) =>
-            el.noteTitle
-              .toLowerCase()
-              .includes(searchInput.bind.value.toLowerCase())
-          ).map((note) => (
-            <Item >
-              <p style={{fontSize:'19px',letterSpacing:'1px',maxWidth:'97%',marginBottom:'5px'}} >{note.noteTitle}</p>
-              <p style={{fontSize:'15px',letterSpacing:'1px',maxWidth:'80%'}} >{note.noteText}</p>
-              <ButtonDelete onClick={() => 
-              props.deleteNote(note.id)}>
-                <ClearIcon
-                  sx={{
-                    color: "white",
-                    transition: ".1s ease",
-                    "&:hover": { color: "rgb(220,220,220)" },
+        {props.notes != undefined &&
+          props.notes
+            .filter((el) =>
+              el.noteTitle
+                .toLowerCase()
+                .includes(searchInput.bind.value.toLowerCase())
+            )
+            .map((note) => (
+              <Item>
+                <p
+                  style={{
+                    fontSize: "19px",
+                    letterSpacing: "1px",
+                    maxWidth: "97%",
+                    margin: "2px 5px 7px",
                   }}
-                />
-              </ButtonDelete>
-            </Item>
-          ))}
+                >
+                  {note.noteTitle}
+                </p>
+                <p
+                  style={{
+                    fontSize: "15px",
+                    letterSpacing: "1px",
+                    maxWidth: "83%",
+                    margin: "2px 5px 5px",
+                    padding: "0 2px",
+                  }}
+                >
+                  {note.noteText}
+                </p>
+                <ButtonDelete onClick={() => props.deleteNote(note.id)}>
+                  <ClearIcon
+                    sx={{
+                      color: "white",
+                      transition: ".1s ease",
+                      "&:hover": { color: "rgb(220,220,220)" },
+                    }}
+                  />
+                </ButtonDelete>
+              </Item>
+            ))}
         <NewItem>
           <TitleInput
+          autoFocus
             type="text"
             placeholder="Write a title..."
             {...titleInput.bind}
@@ -180,7 +225,9 @@ const Notes = (props) => {
           />
           <AddButton
             onClick={() => {
-              props.addNote(titleInput.bind.value,textarea.bind.value)
+              props.addNote(titleInput.bind.value, textarea.bind.value);
+              titleInput.clear();
+              textarea.clear();
               dispatch(
                 setNotes({
                   text: textarea.bind.value,

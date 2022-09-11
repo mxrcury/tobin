@@ -29,7 +29,6 @@ export default notesSlice.reducer;
 export const getNotes = (userId) => (dispatch) => {
   const data = getNotesReq(userId);
   data.then((data) => {
-    console.log(data)
     dispatch(setNotes({notes:data}));
   });
 };
