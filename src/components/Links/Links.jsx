@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   position: fixed;
+  z-index:999;
 `;
 const LinkButton = styled.div`
   ${'' /* padding: 5px 10px; */}

@@ -7,9 +7,9 @@ const PresentPage = () => {
   return (
 
     <>
-    {isAuth && <Navigate replace to='/'/>}
+    {isAuth && <Navigate replace to='/todos'/>}
     <h1 style={{color:'#2f2f2f',textAlign:'center',marginTop:'60px',fontSize:'37px'}}>
-      TODO-APP
+      TOBIN
     </h1>
     <p style={{color:'#2f2f2f',textAlign:'center',marginTop:'13px',fontSize:'18px'}}>click on button for <Link style={{color:'black'}} to='/login'>log in</Link> or <Link style={{color:'black'}} to='/register'>sign up</Link></p>
     </>
