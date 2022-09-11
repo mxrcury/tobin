@@ -20,9 +20,9 @@ const TodoListApiContainerCopy = (props) =>{
   
   const {id } = useAuth()
 
-  // useEffect(() => {
-  //   props.getTasks(props.id)
-  // },[props.tasks])
+  useEffect(() => {
+    props.getTasks(props.id)
+  },[])
   const addTask = (taskText) => {
     if(taskText.trim().length > 1){
       props.addTask(taskText,props.id)

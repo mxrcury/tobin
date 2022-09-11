@@ -17,7 +17,7 @@ const App = () => {
       <Header />
       {isAuth && <Links/>}
       <Routes>
-        <Route path="/tobin/" element={<PresentPage />} />
+        {/* <Route path="/tobin/" element={<PresentPage />} /> */}
         <Route path="/todos" element={<ToDoPage />} />
         <Route path="/notes" element={<NotesPage />} />
         <Route path="/login" element={<LoginPage />} />

@@ -32,7 +32,7 @@ export const getNotes = (userId) => (dispatch) => {
     dispatch(setNotes({notes:data}));
   });
 };
-export const addNoteThunk = (noteTitle, noteText, userId) => (dispatch) => {
+export const addNoteThunk = (noteText, noteTitle, userId) => (dispatch) => {
   addNoteReq(noteTitle, noteText, userId)
     .then((note) => {
       dispatch(getNotes(userId))
