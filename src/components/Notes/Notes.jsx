@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import ClearIcon from '@mui/icons-material/Clear';
+import ClearIcon from "@mui/icons-material/Clear";
 import { useInput } from "./../../hooks/useInput";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -55,14 +55,13 @@ const Container = styled.div`
 `;
 const Item = styled.div`
   width: 90%;
-  padding: 5px;
   border-radius: 10px;
-  height: 90px;
-  background: pink;
-  position:relative;
+  background: #D78045 ;
+  position: relative;
+  padding:10px 10px;
 `;
 const NewItem = styled(Item)`
-  background: darkgreen;
+  background: #6B8E6E;
 `;
 const Textarea = styled.textarea`
   height: 30px;
@@ -70,14 +69,15 @@ const Textarea = styled.textarea`
   resize: none;
   overflow: hidden;
   min-height: 50px;
-  max-height: 100px;
+  height:70%;
+  width:87%;
   background: transparent;
   color: white;
   outline: 0;
   border: 0;
-  font-family: -apple-system, 'SF Pro',sans-serif;
+  font-family: -apple-system, "SF Pro", sans-serif;
   ::placeholder {
-    color: white;
+    color: rgba(255,255,255,0.5);
   }
 `;
 const AddButton = styled.button`
@@ -87,7 +87,7 @@ const AddButton = styled.button`
   border: 0;
   display: inline-block;
   right: 0px;
-  bottom:5px;
+  bottom: 5px;
   position: absolute;
 `;
 const addHover = {
@@ -101,10 +101,13 @@ const TitleInput = styled.input`
   color: white;
   background: transparent;
   border: 0;
+  font-size:18px;
   outline: 0;
-  padding:0 4px;
+  padding: 0 4px;
+  margin-bottom:5px;
   &::placeholder {
-    color: white;
+    font-size:16px;
+    color: rgba(255,255,255,0.5);
   }
 `;
 // const Button = styled.button`
@@ -113,23 +116,23 @@ const TitleInput = styled.input`
 //   position:absolute;
 //   background:white;
 // `
-const ButtonDelete = styled.button` 
-     right:2px;
-     top:2px;
-     outline:0;
-     border:0;
-     position:absolute;
-     background:transparent;
-     padding:0;
-     cursor:pointer;
-`
+const ButtonDelete = styled.button`
+  right: 2px;
+  top: 2px;
+  outline: 0;
+  border: 0;
+  position: absolute;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+`;
 
-const Notes = ({notes}) => {
+const Notes = (props) => {
   const textarea = useInput();
   const searchInput = useInput();
   const titleInput = useInput();
   const dispatch = useDispatch();
-  console.log(textarea.bind.value);
+
   return (
     <Wrapper>
       <Form>
@@ -144,18 +147,23 @@ const Notes = ({notes}) => {
         </Button>
       </Form>
       <Container>
-        {notes
-          .filter((el) =>
-            el.title
+        {props.notes != undefined && props.notes.filter((el) =>
+            el.noteTitle
               .toLowerCase()
               .includes(searchInput.bind.value.toLowerCase())
-          )
-          .map((note) => (
-            <Item>
-              <p style={{ marginBottom: 5, fontSize: 21 }}>{note.title}</p>
-              <p>{note.text}</p>
-              <ButtonDelete onClick={()=>console.log('hi')} >
-                <ClearIcon sx={{color:'white',transition: ".1s ease",'&:hover':{color:'rgb(220,220,220)'}}} />
+          ).map((note) => (
+            <Item >
+              <p style={{fontSize:'19px',letterSpacing:'1px',maxWidth:'97%',marginBottom:'5px'}} >{note.noteTitle}</p>
+              <p style={{fontSize:'15px',letterSpacing:'1px',maxWidth:'80%'}} >{note.noteText}</p>
+              <ButtonDelete onClick={() => 
+              props.deleteNote(note.id)}>
+                <ClearIcon
+                  sx={{
+                    color: "white",
+                    transition: ".1s ease",
+                    "&:hover": { color: "rgb(220,220,220)" },
+                  }}
+                />
               </ButtonDelete>
             </Item>
           ))}
@@ -172,6 +180,7 @@ const Notes = ({notes}) => {
           />
           <AddButton
             onClick={() => {
+              props.addNote(titleInput.bind.value,textarea.bind.value)
               dispatch(
                 setNotes({
                   text: textarea.bind.value,
