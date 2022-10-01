@@ -4,12 +4,8 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import Preloader from "components/Container/PreloaderModal/Preloader";
 import Notes from "components/Notes/Notes";
-import styled from 'styled-components';
 import NotesContainer from "components/Notes/NotesContainer";
-
-const Wrapper = styled.div`
-    margin-top:100px;
-`
+import { Wrapper } from "./styles";
 
 const NotesPage = () => {
   const { isAuth } = useAuth();

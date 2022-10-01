@@ -10,8 +10,8 @@ import {
   uncompleteTask,
   editTask,
   delTask
-} from "../../Redux/Reducers/todo-reducer";
-import PreloaderModal from "./PreloaderModal/Preloader";
+} from "../../../Redux/Reducers/todo-reducer";
+import PreloaderModal from "../PreloaderModal/Preloader";
 import TodoList from "./TodoList";
 
 class TodoListApiContainer extends React.Component {
@@ -27,10 +27,6 @@ class TodoListApiContainer extends React.Component {
     }
   }
   deleteTask = (taskId) => {
-    debugger
-    this.props.delTask(taskId)
-    console.log(this.props.tasks)
-    debugger
     this.props.deleteTask(this.props.id,this.props.tasks)
   };
   completeTask = (taskId) => {

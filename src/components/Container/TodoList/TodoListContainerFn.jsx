@@ -10,15 +10,18 @@ import {
   completeTask,
   uncompleteTask,
   editTask,
-  delTask
-} from "../../Redux/Reducers/todo-reducer";
-import PreloaderModal from "./PreloaderModal/Preloader";
+  delTask,
+  updateColor
+} from "../../../Redux/Reducers/todo-reducer";
+import PreloaderModal from "../PreloaderModal/Preloader";
 import TodoList from "./TodoList";
 import { useAuth } from 'hooks/useAuth';
 
 const TodoListApiContainerCopy = (props) =>{
   
   const {id } = useAuth()
+  const [isModalOpen,setModalOpen] = useState(false)
+  const [isChangeColor,setChangeColor] = useState(false)
 
   useEffect(() => {
     props.getTasks(props.id)
@@ -43,7 +46,10 @@ const TodoListApiContainerCopy = (props) =>{
   const editTask = (taskId,taskText) => {
       props.editTask(id,taskId,taskText)
   };
-  const [isModalOpen,setModalOpen] = useState(false)
+  const changeColor = (taskId, color) =>{
+    props.updateColor(id, taskId, color);
+  }
+
   const openModal= () =>{
     setModalOpen(true)
   }
@@ -51,11 +57,15 @@ const TodoListApiContainerCopy = (props) =>{
     setModalOpen(false)
     props.fillSelectedTask(null)
   }
+  console.log(changeColor)
+
   props.isFetching && (<PreloaderModal/>)
    return (
       <TodoList
         {...props}
+        name='John'
         addTask={addTask}
+        changeColor={changeColor}
         deleteTask={deleteTask}
         editTask={editTask}
         completeTask={completeTask}
@@ -63,6 +73,8 @@ const TodoListApiContainerCopy = (props) =>{
         openModal={openModal}
         closeModal={closeModal}
         isModalOpen={isModalOpen}
+        setChangeColor={setChangeColor}
+        isChangeColor={isChangeColor}
       />
     );
 }
@@ -82,5 +94,6 @@ export default connect(mapStateToProps, {
   completeTask,
   uncompleteTask,
   editTask,
-  delTask
+  delTask,
+  updateColor
 })(TodoListApiContainerCopy);

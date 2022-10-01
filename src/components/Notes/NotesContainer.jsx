@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addNoteThunk, getNotes } from "Redux/Reducers/notes-reducer";
 import { useAuth } from "hooks/useAuth";
-import { delNote } from "../../Redux/Reducers/notes-reducer";
+import { deleteNote } from "../../Redux/Reducers/notes-reducer";
 import { useMemo } from "react";
 
 const NotesContainer = () => {
@@ -25,7 +25,7 @@ const NotesContainer = () => {
     
   };
   const deleteNote = (noteId) => {
-    dispatch(delNote(id, noteId));
+    dispatch(deleteNote(id, noteId));
   };
   useEffect(() => {
     dispatch(getNotes(id));

@@ -13,17 +13,19 @@ const notesSlice = createSlice({
       return {...state,notes:[...action.payload.notes]}
       //state.notes = action.payload.notes;
     },
-    delNote(state, action) {
-      state.notes.filter((el) => el.id != action.payload.id);
-    },
-    addNote(state,action){
-      state.notes.push({noteText:action.payload.text,title:action.payload.title,id:action.payload.id})
-    }
+    // deleteNote(state, action) {
+    //   state.notes.filter((el) => el.id != action.payload.id);
+    // },
+    // addNote(state,action){
+    //   state.notes.push({noteText:action.payload.text,title:action.payload.title,id:action.payload.id})
+    // }
   },
 });
 
 
-export const { setNotes, addNote } = notesSlice.actions;
+export const { setNotes
+  // , addNote
+ } = notesSlice.actions;
 export default notesSlice.reducer;
 
 export const getNotes = (userId) => (dispatch) => {
@@ -42,7 +44,7 @@ export const addNoteThunk = (noteText, noteTitle, userId) => (dispatch) => {
       console.error(error);
     });
 };
-export const delNote = (userId,noteId)=>(dispatch)=>{
+export const deleteNote = (userId,noteId)=>(dispatch)=>{
     delNoteReq(userId,noteId).then(note=>{
       dispatch(getNotes(userId))
     }).catch(error=>console.error(error))

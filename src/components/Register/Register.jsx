@@ -19,6 +19,7 @@ const Register = () => {
   const dispatch = useDispatch()
   const {isAuth} = useAuth()
 
+
   const handleRegister = (email,password,username)=>{
     const auth = getAuth()
     if (
@@ -31,7 +32,7 @@ const Register = () => {
       createUserWithEmailAndPassword(auth, email, password)
         .then(credential => {
           const usersRef = doc(db,'users',credential.user.uid)
-          const tasksRef = collection(usersRef,'tasks')
+          // const tasksRef = collection(usersRef,'tasks')
           setDoc(usersRef,{
             uid: credential.user.uid,
             username,

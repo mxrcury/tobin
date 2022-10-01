@@ -1,5 +1,5 @@
 import React from 'react'
-import Login from '../components/Login/Login'
+import Login from '../../components/Login/Login'
 import { Navigate } from "react-router-dom";
 import { useAuth } from 'hooks/useAuth';
 import { useSelector } from 'react-redux';

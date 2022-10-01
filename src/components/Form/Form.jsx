@@ -1,13 +1,13 @@
+import { useInput } from "hooks/useInput";
 import React from "react";
 import { useState } from "react";
 import styles from "./Form.module.css";
 
 const Form = ({ title, handleClick,isRegisterPage }) => {
 
-  const [email,setEmail] = useState('')
-  const [password,setPassword] = useState('')
-  const [username,setUsername] = useState('')
-
+  const email = useInput()
+  const password = useInput()
+  const username = useInput()
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.formTitle}>{title}</h1>
@@ -17,8 +17,7 @@ const Form = ({ title, handleClick,isRegisterPage }) => {
             className={`${styles.input}`}
             type="text"
             placeholder="enter username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            {...username.bind}
             required
           />
         )}
@@ -28,21 +27,19 @@ const Form = ({ title, handleClick,isRegisterPage }) => {
           type="email"
           placeholder="enter your email"
           required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...email.bind}
         />
         <input
           className={`${styles.input}`}
           type="password"
           placeholder="password"
           required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          {...password.bind}
         />
         <button
           className={styles.btn}
           onClick={() => {
-            handleClick(email, password,username);
+            handleClick(email.bind.value, password.bind.value,username.bind.value);
           }}
         >
           {title}

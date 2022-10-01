@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getTasksReq, delTaskReq, addTaskReq, toggleTaskCompleteReq, editTaskReq } from 'api/apiRequests';
+import { getTasksReq, delTaskReq, addTaskReq, toggleTaskCompleteReq, editTaskReq, updateColorReq } from 'api/apiRequests';
 import { useAuth } from 'hooks/useAuth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from "./../../firebase/firebase";
@@ -30,7 +30,18 @@ const initialState = {
     id: localStorage.getItem(ID_KEY) ?? null,
     username:localStorage.getItem(USERNAME_KEY) ?? '',
     isLoading:false
-  }
+  },
+  colors:[
+    {
+      color:'#d78045'
+    },
+    {
+      color:'#E52935'
+    },
+    {
+      color:'#F9B018'
+    }
+  ]
 };
 
 
@@ -63,6 +74,7 @@ export const todoReducer = (state = initialState, action) => {
           taskTitle:action.taskTitle
         },
       };
+    
     default:
       return state;
   }
@@ -151,4 +163,9 @@ export const editTask = (userId,taskId,taskText) => (dispatch)=>{
   editTaskReq(userId,taskId,taskText,false).then((response) => {
     dispatch(getTasks(userId))
   }).catch(error => alert(`Error:${error.message}`))
+}
+export const updateColor = (userId,taskId,color) => (dispatch)=>{
+  updateColorReq(userId,taskId,color).then((response)=>{
+    dispatch(getTasks(userId))
+  }).catch(error=>alert(`Error:${error.message}`))
 }

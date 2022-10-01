@@ -1,13 +1,13 @@
 import Header from "./components/Header/Header";
 import { Route, Routes } from "react-router-dom";
-import ToDoPage from "./pages/ToDoPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import Tasks from "./pages/Tasks";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import "./firebase/firebase";
-import PresentPage from "./pages/PresentPage";
-import NotesPage from "pages/NotesPage";
+import Present from "./pages/Present";
+import Notes from "pages/Notes";
 import { useAuth } from 'hooks/useAuth';
-import Links from './components/Links/Links';
+import Links from './components/Links';
 
 const App = () => {
   const {isAuth} = useAuth()
@@ -17,11 +17,11 @@ const App = () => {
       <Header />
       {isAuth && <Links/>}
       <Routes>
-        {/* <Route path="/tobin/" element={<PresentPage />} /> */}
-        <Route path="/todos" element={<ToDoPage />} />
-        <Route path="/notes" element={<NotesPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/tobin/" element={<Present />} />
+        <Route path="/todos" element={<Tasks />} />
+        <Route path="/notes" element={<Notes />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </div>
   );

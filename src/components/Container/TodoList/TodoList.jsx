@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { TodoItem } from "./TodoItem";
+import { TodoItem } from "../TodoItem";
 import styles from "./TodoList.module.css";
-import EditModal from './EditModal';
-import { useInput } from './../../hooks/useInput';
+import EditModal from '../EditModal';
+import { useInput } from './../../../hooks/useInput';
+import ChangeColorModal from "../ChangeColorModal";
 
 const TodoList = (props) => {
   const inputTasks = useInput()
@@ -19,6 +20,13 @@ const TodoList = (props) => {
         />
       ) : (
         ""
+      )}
+      {props.isChangeColor && (
+        <ChangeColorModal
+          selectedTask={props.selectedTask}
+          changeColor={props.changeColor}
+          setChangeColor={props.setChangeColor}
+        />
       )}
       <div>
         <div className={styles.todoListForm}>
@@ -46,6 +54,7 @@ const TodoList = (props) => {
       {props.tasks.map(task => {
         return (
           <TodoItem
+            key={task.id}
             task={task}
             completeTask={props.completeTask}
             uncompleteTask={props.uncompleteTask}
@@ -55,6 +64,8 @@ const TodoList = (props) => {
             fillSelectedTask={props.fillSelectedTask}
             selectedTask={props.selectedTask}
             inputEdit={inputEdit}
+            onChangeColor={props.onChangeColor}
+            setChangeColor={props.setChangeColor}
           />
         );
       })}

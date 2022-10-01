@@ -11,14 +11,16 @@ import { db } from './../../firebase/firebase';
 const Login = ({setIsLoggedIn}) => {
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const handleLogIn = (email,password,username) =>{
     const auth = getAuth()
     if (
-      email.length >= 3 &&
-      password.length >= 6 &&
-      email.includes("@") &&
+      email.length >= 3 
+      &&
+      password.length >= 6 
+      &&
+      email.includes("@") 
+      &&
       email.includes(".")
     ) {
     dispatch(setLoading({isLoading:true}))

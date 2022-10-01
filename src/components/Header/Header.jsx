@@ -12,12 +12,12 @@ const Header = () => {
   const { isAuth } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const {email,username,isLoading} = useSelector(state=>state.user)
+  const {username,isLoading} = useSelector(state=>state.user)
 
   
 
 
-  const handleLogOut = () => {
+  const onLogOut = () => {
     signOut(authGet).then(() => {
       dispatch(setLoading({ isLoading: true }));
       dispatch(removeUser());
@@ -45,7 +45,7 @@ const Header = () => {
         <div className={styles.headerWrapper}>
           <div className={styles.headerTitle}>hi,  {username}</div>
           <div className={styles.button}>
-            <button onClick={handleLogOut} className={styles.logBtn}>
+            <button onClick={onLogOut} className={styles.logBtn}>
               Log Out
             </button>
           </div>
